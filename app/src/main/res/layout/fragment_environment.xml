@@ -1,0 +1,83 @@
+<com.liaoinstan.springview.widget.SpringView
+    android:id="@+id/Spview_spbranchList"
+    android:layout_width="wrap_content"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.a95795.thegreenplant.HomeFragment.EnvironmentFragment">
+
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/tv_linechart_name"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:paddingLeft="5dp"
+                android:textSize="16dp"
+                android:text="报表："
+                android:gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                />
+            <TextView
+                android:id="@+id/tv_cycle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dp"
+                android:drawableRight="@drawable/pull"
+                android:text="日报表"/>
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="100"/>
+            <LinearLayout
+                android:id="@+id/ll_chart_table"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="5dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/img_ct"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_width="50dp"
+                    android:layout_height="25dp"
+                    android:src="@drawable/tb"
+                    />
+                <TextView
+                    android:id="@+id/tv_ct"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="表格"
+                    android:textSize="10dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+        <FrameLayout
+            android:id="@+id/fra_linechart"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+
+</FrameLayout>
+</com.liaoinstan.springview.widget.SpringView>

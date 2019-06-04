@@ -1,0 +1,307 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:id="@+id/framelyout"
+    android:layout_height="match_parent"
+    android:layoutAnimation="@anim/list_layout_animation"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.example.a95795.thegreenplant.HomeFragment.ParticularsFragment">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/on_off_state"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="开关状态"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/on_off_state_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+
+                <TextView
+                    android:id="@+id/principal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="负责人"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/principal_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+                />
+
+                <TextView
+                    android:id="@+id/machine_identification_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="机器编号"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/machine_identification_number_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+                />
+
+                <TextView
+                    android:id="@+id/frequency_of_usage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="使用频次"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/frequency_of_usage_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+                />
+
+                <TextView
+                    android:id="@+id/hours_of_use"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="使用时间"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/hours_of_use_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />/>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/malfunction"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="故障状态"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/malfunction_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+                />
+
+                <TextView
+                    android:id="@+id/local_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="车间编号"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/local_name_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />/>
+
+                <TextView
+                    android:id="@+id/energy_consumption"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="能耗"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/energy_consumption_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+                />
+
+                <TextView
+                    android:id="@+id/machine_model"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="机器型号"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/machine_model_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />
+                />
+
+                <TextView
+                    android:id="@+id/time_to_purchase"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center"
+                    android:text="采购时间"
+                    android:textColor="@color/textview" />
+
+                <TextView
+                    android:id="@+id/time_to_purchase_data"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:gravity="center"
+                    android:text="TextView"
+                    android:textColor="@color/textview_data" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_marginLeft="23dp"
+                    android:layout_marginRight="23dp"
+                    android:background="@color/greensThree" />/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <RelativeLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal">
+
+            <com.example.a95795.thegreenplant.custom.SecretTextView
+                android:id="@+id/detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@drawable/test_bg"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="详细信息"
+                android:textSize="22dp"
+                />
+
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</FrameLayout>
