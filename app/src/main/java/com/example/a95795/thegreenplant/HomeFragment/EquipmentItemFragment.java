@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -90,8 +91,8 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         ID = sp.getInt("STRING_KEY", 0);
         Workshop = sp.getInt("STRING_KEY2",0);
-        list();
         EventBus.getDefault().register(this);
+        list();
         adapter();
 
         return view;
@@ -129,12 +130,10 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
                             expandableListView.setAdapter(new EquipmentAdapter(subjectList,Workshop));
                             //定义临时数组
                             final ArrayList list = new ArrayList();
-                            Log.d("2222222", "onResponse: "+list);
                             //遍历找到出现问题的设备
                             for (int i = 0; i < subjectList.size(); i++) {
                                 if (subjectList.get(i).getMachineFs()==1) {
                                     list.add(subjectList.get(i).getMachineType() + subjectList.get(i).getMachineId() + "号");
-                                    Log.d("2222222", "onResponse: "+list);
                                 }
                             }
                             if (list.size() > 0) {
@@ -163,7 +162,6 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
                                 public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                                     EquipmentItemFragment.GetMachineId getMachineId = new EquipmentItemFragment.GetMachineId(subjectList.get(childPosition).getMachineId());
                                     getMachineId.setMachineId();
-
                                     //点击子控件弹出框框
                                     LongPressPopup popup = new LongPressPopupBuilder(EquipmentItemFragment.this.getActivity())
                                             .setTarget(v)
@@ -201,7 +199,6 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
                                             }
                                         }, 1000);    //延时3s执行
                                     } else {
-
                                         new Handler().postDelayed(new Runnable() {
                                             @Override
                                             public void run() {
@@ -384,14 +381,44 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
                         try {
 
                             Gson gson = new Gson();
-                            List<Machine> subjectList = gson.fromJson(response.getJSONArray("Machine").toString(),new TypeToken<List<Machine>>(){}.getType());
+                            final List<Machine> subjectList = gson.fromJson(response.getJSONArray("Machine").toString(),new TypeToken<List<Machine>>(){}.getType());
 
                             EnvironmentAdapter adapter_big = new EnvironmentAdapter(EquipmentItemFragment.this.getActivity(), R.layout.listview,subjectList,Workshop);
                             listView_big = (ListView) getView().findViewById(R.id.listviewbig);
                             listView_big.setAdapter(adapter_big);
+                            listView_big.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    EquipmentItemFragment.GetMachineId getMachineId = new EquipmentItemFragment.GetMachineId(subjectList.get(i).getMachineId());
+                                    getMachineId.setMachineId();
+                                    //点击子控件弹出框框
+                                    LongPressPopup popup = new LongPressPopupBuilder(EquipmentItemFragment.this.getActivity())
+                                            .setTarget(view)
+                                            .setPopupView(R.layout.particulars_abbreviate, EquipmentItemFragment.this)
+                                            .setLongPressDuration(50)
+                                            .build();
+                                    // You can also chain it to the .build() mehod call above without declaring the "popup" variable before
+                                    popup.register();
+                                }
+                            });
                             EnvironmentAdapter adapter_small = new EnvironmentAdapter(EquipmentItemFragment.this.getActivity(), R.layout.listview_small,subjectList,Workshop);
                             listView_small = (ListView) getView().findViewById(R.id.listview_little);
                             listView_small.setAdapter(adapter_small);
+                            listView_small.setOnItemClickListener( new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    EquipmentItemFragment.GetMachineId getMachineId = new EquipmentItemFragment.GetMachineId(subjectList.get(i).getMachineId());
+                                    getMachineId.setMachineId();
+                                    //点击子控件弹出框框
+                                    LongPressPopup popup = new LongPressPopupBuilder(EquipmentItemFragment.this.getActivity())
+                                            .setTarget(view)
+                                            .setPopupView(R.layout.particulars_abbreviate, EquipmentItemFragment.this)
+                                            .setLongPressDuration(50)
+                                            .build();
+                                    // You can also chain it to the .build() mehod call above without declaring the "popup" variable before
+                                    popup.register();
+                                }
+                            });
 
                         } catch (JSONException e) {
                             e.printStackTrace();

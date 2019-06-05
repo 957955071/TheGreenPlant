@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.a95795.thegreenplant.HomeFragment.FeedbackFragment;
 import com.example.a95795.thegreenplant.HomeFragment.HomeFragment;
 import com.example.a95795.thegreenplant.custom.SecretTextView;
 import com.example.a95795.thegreenplant.custom.StatusBarCompat;

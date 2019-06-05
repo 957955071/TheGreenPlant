@@ -55,7 +55,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView);
         JellyToggleButton jellyToggleButton = (JellyToggleButton) view.findViewById(R.id.JellyToggleButton);
         ImageView imageView1 = (ImageView) view.findViewById(R.id.imageView2);
-        textView.setText(machine.getMachineType());
+        textView.setText(machine.getMachineType()+machine.getMachineId());
         //简单设置图片
         switch (machine.getMachineType()) {
             case "EHUM":
@@ -129,6 +129,11 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
 
 
         return view;
+    }
+    //设置子单元可以点击
+    @Override
+    public boolean isEnabled(int position) {
+        return true;
     }
 
     //点击类——> 监听设备点击位置
@@ -214,6 +219,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
         }
 
     }
+
 
 
 }

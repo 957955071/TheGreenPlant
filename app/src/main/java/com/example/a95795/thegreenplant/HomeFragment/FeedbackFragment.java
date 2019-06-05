@@ -1,9 +1,8 @@
-package com.example.a95795.thegreenplant;
+package com.example.a95795.thegreenplant.HomeFragment;
 
 
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -17,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.example.a95795.thegreenplant.R;
 import com.unstoppable.submitbuttonview.SubmitButton;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
