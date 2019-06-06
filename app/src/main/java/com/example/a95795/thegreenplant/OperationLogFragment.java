@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class BlankFragment extends Fragment {
+public class OperationLogFragment extends Fragment {
 
 
-    public static BlankFragment newInstance() {
-        return new BlankFragment();
+    public static OperationLogFragment newInstance() {
+        return new OperationLogFragment();
     }
 
 
