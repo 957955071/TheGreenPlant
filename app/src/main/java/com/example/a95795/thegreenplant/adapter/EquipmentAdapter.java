@@ -32,8 +32,11 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -157,7 +160,10 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
     class MyListener {
         int group, child,MachineId;
         String IP;
-
+        Context ctx = getContext();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        String name = sp.getString("STRING_KEY3","");
+        String userid = sp.getString("STRING_KEY4","");
         public MyListener(int groupPosition, int childPosition,String ip,int machineId) {
             group = groupPosition;
             child = childPosition;
@@ -204,6 +210,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+
                         }
                     },
                     new Response.ErrorListener() {
@@ -214,6 +221,65 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     }
             );
             MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+        }
+        public void addlogRight(){
+            SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+            String ee = dff.format(new Date());
+            String url = getString(R.string.ip) + "user/LogAdd";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    "{\n" +
+                            "            \"userId\": \""+userid+"\",\n" +
+                            "            \"userName\": \""+name+"\",\n" +
+                            "            \"date\": \""+ee+"\",\n" +
+                            "            \"log\": \"打开了"+MachineId+"号电机\"\n" +
+                            "}",
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+                        }
+                    }
+            );
+            MyApplication.addRequest(jsonObjectRequest,"MainActivity");
+        }
+        public void addlogLeft(){
+            SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+            String ee = dff.format(new Date());
+
+            String url = getString(R.string.ip) + "user/LogAdd";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    "{\n" +
+                            "            \"userId\": \""+userid+"\",\n" +
+                            "            \"userName\": \""+name+"\",\n" +
+                            "            \"date\": \""+ee+"\",\n" +
+                            "            \"log\": \"关闭了"+MachineId+"号电机\"\n" +
+                            "}",
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+                        }
+                    }
+            );
+            MyApplication.addRequest(jsonObjectRequest,"MainActivity");
         }
 
     }

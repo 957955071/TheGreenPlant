@@ -69,7 +69,6 @@ public class EquipmentFragment extends SupportFragment {
 
 //下拉刷新
     private Handler handler = new Handler(){
-
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
@@ -102,8 +101,9 @@ public class EquipmentFragment extends SupportFragment {
         judge2();
         springView = (SpringView) view.findViewById(R.id.Spview_spbranchList);
         //下拉列表
-        niceSpinner =  view.findViewById(R.id.nice_spinner);
+
         initData();initEvnet();replaceFragment(new EquipmentItemFragment());
+        niceSpinner =  view.findViewById(R.id.nice_spinner);
         List<String> spinnerData = new LinkedList<>(Arrays.asList("一号车间", "二号车间","三号车间","四号车间"));
         niceSpinner.attachDataSource(spinnerData);
         niceSpinner.setTextSize(13);

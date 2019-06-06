@@ -200,6 +200,8 @@ public class LoginFragment extends SupportFragment {
                                 final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 final int id  = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
+                                final String name = subjectList.get(0).getUserName();
+                                final String userid = subjectList.get(0).getUserId();
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -212,6 +214,8 @@ public class LoginFragment extends SupportFragment {
                                         SharedPreferences.Editor editor = sp.edit();
                                         editor.putInt("STRING_KEY", id);
                                         editor.putInt("STRING_KEY2", work);
+                                        editor.putString("STRING_KEY3", name);
+                                        editor.putString("STRING_KEY4", userid);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
@@ -255,6 +259,7 @@ public class LoginFragment extends SupportFragment {
                 String arr[] = str.split("##");
                 userName.setText(arr[0]);
                 passWord.setText(arr[1]);
+                box.setChecked(true);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } finally {
@@ -397,6 +402,8 @@ public class LoginFragment extends SupportFragment {
                                 final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 final int id  = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
+                                final String name = subjectList.get(0).getUserName();
+                                final String userid = subjectList.get(0).getUserId();
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -409,13 +416,13 @@ public class LoginFragment extends SupportFragment {
                                         SharedPreferences.Editor editor = sp.edit();
                                         editor.putInt("STRING_KEY", id);
                                         editor.putInt("STRING_KEY2", work);
+                                        editor.putString("STRING_KEY3", name);
+                                        editor.putString("STRING_KEY4", userid);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
-
                                     }
                                 }, 2000);    //延时2s执行
-
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -458,6 +465,8 @@ public class LoginFragment extends SupportFragment {
                                 final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 final int id  = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
+                                final String name = subjectList.get(0).getUserName();
+                                final String userid = subjectList.get(0).getUserId();
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -470,10 +479,11 @@ public class LoginFragment extends SupportFragment {
                                         SharedPreferences.Editor editor = sp.edit();
                                         editor.putInt("STRING_KEY", id);
                                         editor.putInt("STRING_KEY2", work);
+                                        editor.putString("STRING_KEY3", name);
+                                        editor.putString("STRING_KEY4", userid);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
-
                                     }
                                 }, 2000);    //延时2s执行
 

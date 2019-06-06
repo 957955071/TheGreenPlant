@@ -40,11 +40,12 @@ public class HomeActivity extends SupportActivity
     public static final int THIRDLY = 2;
     public static final int FOURTHLY = 3;
     public static final int FOUR = 4;
+    public static final int FIVE = 5;
 
     private int postion = 0;
 
 
-    private SupportFragment[] mFragments = new SupportFragment[5];
+    private SupportFragment[] mFragments = new SupportFragment[6];
 
 
     @Override
@@ -73,12 +74,14 @@ public class HomeActivity extends SupportActivity
             mFragments[THIRDLY] = WorkshopInformationFragment.newInstance();
             mFragments[FOURTHLY] = SetMaxVauleFragment.newInstance();
             mFragments[FOUR] = FeedbackFragment.newInstance();
+            mFragments[FIVE] = OperationLogFragment.newInstance();
             loadMultipleRootFragment(R.id.home, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
                     mFragments[THIRDLY],
                     mFragments[FOURTHLY],
-                    mFragments[FOUR]);
+                    mFragments[FOUR],
+                    mFragments[FIVE]);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
@@ -88,6 +91,7 @@ public class HomeActivity extends SupportActivity
             mFragments[THIRDLY] = findFragment(WorkshopInformationFragment.class);
             mFragments[FOURTHLY] = findFragment(SetMaxVauleFragment.class);
             mFragments[FOUR] = findFragment(FeedbackFragment.class);
+            mFragments[FIVE] = findFragment(OperationLogFragment.class);
         }
 
 
@@ -181,7 +185,7 @@ public class HomeActivity extends SupportActivity
                     })
                     .show();
         }else if (id == R.id.feed) {
-
+            showHideFragment(mFragments[5], mFragments[postion]);
             test(8);
             postion = 5;
         }

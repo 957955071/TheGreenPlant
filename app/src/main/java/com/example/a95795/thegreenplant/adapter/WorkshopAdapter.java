@@ -17,9 +17,10 @@ import java.util.Date;
 import java.util.List;
 
 public class WorkshopAdapter extends ArrayAdapter<User> {
-    public List<User> list;
+
     public int workid;
     private int resourceId;
+    public List<User> list;
 
     //重写适配器
     public WorkshopAdapter(Context context, int textViewResourceId, List<User> objects) {

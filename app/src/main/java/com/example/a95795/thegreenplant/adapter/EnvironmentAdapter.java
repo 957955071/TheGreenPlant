@@ -1,12 +1,14 @@
 package com.example.a95795.thegreenplant.adapter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -14,20 +16,30 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.a95795.thegreenplant.HomeFragment.EnvironmentFragment;
+import com.example.a95795.thegreenplant.HomeFragment.EquipmentItemFragment;
+import com.example.a95795.thegreenplant.OperationLogFragment;
 import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.custom.Machine;
 import com.example.a95795.thegreenplant.custom.MyApplication;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.JellyTypes.Jelly;
 import com.nightonke.jellytogglebutton.State;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static android.content.Context.MODE_PRIVATE;
+import static com.mob.tools.utils.Strings.getString;
 import static com.nightonke.jellytogglebutton.JellyTypes.Jelly.ACTIVE_TREMBLE_BODY_SLIM_JIM;
 
 /**
@@ -141,6 +153,10 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
         int position, MachineId;
         String IP;
 
+        Context ctx = getContext();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        String name = sp.getString("STRING_KEY3","");
+        String userid = sp.getString("STRING_KEY4","");
         public MyListener(int Position, String ip, int machineId) {
             position = Position;
             IP = ip;
@@ -160,7 +176,17 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
+                            addlogLeft();
+                            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                    .setContentText("设备已关闭")
+                                    .setConfirmText("确定")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    })
+                                    .show();
                         }
                     },
                     new Response.ErrorListener() {
@@ -186,6 +212,17 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
+                            addlogRight();
+                            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                    .setContentText("设备已启动")
+                                    .setConfirmText("确定")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    })
+                                    .show();
                         }
                     },
                     new Response.ErrorListener() {
@@ -196,6 +233,65 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     }
             );
             MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+        }
+        public void addlogRight(){
+            SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+            String ee = dff.format(new Date());
+            String url = IP + "user/LogAdd";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    "{\n" +
+                            "            \"userId\": \""+userid+"\",\n" +
+                            "            \"userName\": \""+name+"\",\n" +
+                            "            \"date\": \""+ee+"\",\n" +
+                            "            \"log\": \"打开了"+MachineId+"号电机\"\n" +
+                            "}",
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+                        }
+                    }
+            );
+            MyApplication.addRequest(jsonObjectRequest,"MainActivity");
+        }
+        public void addlogLeft(){
+            SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+            String ee = dff.format(new Date());
+
+            String url = IP + "user/LogAdd";
+            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    "{\n" +
+                            "            \"userId\": \""+userid+"\",\n" +
+                            "            \"userName\": \""+name+"\",\n" +
+                            "            \"date\": \""+ee+"\",\n" +
+                            "            \"log\": \"关闭了"+MachineId+"号电机\"\n" +
+                            "}",
+                    new Response.Listener<JSONObject>(){
+                        @Override
+                        public void onResponse(JSONObject response) {
+
+                        }
+                    },
+                    new Response.ErrorListener(){
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+                        }
+                    }
+            );
+            MyApplication.addRequest(jsonObjectRequest,"MainActivity");
         }
 
     }

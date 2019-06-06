@@ -74,7 +74,7 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
     private int Id;
     private ListView listView_big,listView_small;
     private LinearLayout linearLayout;
-    private int ID,Workshop;
+    private int Workshop;
 
     public static EquipmentItemFragment newInstance() {
         return new EquipmentItemFragment();
@@ -87,10 +87,11 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
         View view = inflater.inflate(R.layout.fragment_equipment_item, container, false);
         expandableListView = (ExpandableListView) view.findViewById(R.id.expend_list);
         linearLayout = (LinearLayout) view.findViewById(R.id.equipmentAgain);
+
         Context ctx = EquipmentItemFragment.this.getActivity();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
-        ID = sp.getInt("STRING_KEY", 0);
         Workshop = sp.getInt("STRING_KEY2",0);
+
         EventBus.getDefault().register(this);
         list();
         adapter();
@@ -382,7 +383,6 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
 
                             Gson gson = new Gson();
                             final List<Machine> subjectList = gson.fromJson(response.getJSONArray("Machine").toString(),new TypeToken<List<Machine>>(){}.getType());
-
                             EnvironmentAdapter adapter_big = new EnvironmentAdapter(EquipmentItemFragment.this.getActivity(), R.layout.listview,subjectList,Workshop);
                             listView_big = (ListView) getView().findViewById(R.id.listviewbig);
                             listView_big.setAdapter(adapter_big);
