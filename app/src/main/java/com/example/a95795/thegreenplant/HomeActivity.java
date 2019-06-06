@@ -180,6 +180,10 @@ public class HomeActivity extends SupportActivity
                         }
                     })
                     .show();
+        }else if (id == R.id.feed) {
+
+            test(8);
+            postion = 5;
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -232,6 +236,12 @@ public class HomeActivity extends SupportActivity
                 imageView.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("用户反馈");
+                secretTextView.show();
+                break;
+            case 8:
+                imageView.setVisibility(View.GONE);
+                secretTextView.hide();
+                secretTextView.setText("操作日志");
                 secretTextView.show();
                 break;
             default:

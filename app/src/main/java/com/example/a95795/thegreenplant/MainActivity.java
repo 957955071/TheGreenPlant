@@ -117,7 +117,7 @@ public class MainActivity extends SupportActivity  {
         }else {
             new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("提示")
-                    .setContentText("您的网络出现问题，请检查网络设置！")
+                    .setContentText("网络出现问题，请检查网络设置！")
                     .setConfirmText("确定")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override

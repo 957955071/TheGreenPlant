@@ -197,8 +197,9 @@ public class LoginFragment extends SupportFragment {
                                 loginPhone();
                             } else {
                                 Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
-                                List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
+                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 final int id  = subjectList.get(0).getId();
+                                final int work = subjectList.get(0).getUserWork();
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -210,10 +211,10 @@ public class LoginFragment extends SupportFragment {
                                         //存入数据
                                         SharedPreferences.Editor editor = sp.edit();
                                         editor.putInt("STRING_KEY", id);
+                                        editor.putInt("STRING_KEY2", work);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
-
                                     }
                                 }, 2000);    //延时2s执行
 
@@ -454,8 +455,9 @@ public class LoginFragment extends SupportFragment {
                                 loginUserid();
                             } else {
                                 Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
-                                List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
+                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 final int id  = subjectList.get(0).getId();
+                                final int work = subjectList.get(0).getUserWork();
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -467,6 +469,7 @@ public class LoginFragment extends SupportFragment {
                                         //存入数据
                                         SharedPreferences.Editor editor = sp.edit();
                                         editor.putInt("STRING_KEY", id);
+                                        editor.putInt("STRING_KEY2", work);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();

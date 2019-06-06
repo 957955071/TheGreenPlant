@@ -233,15 +233,16 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
             ImageView image = (ImageView) convertView.findViewById(R.id.imageView);
             textView.setText(childString[group][child]);
 
+
             //设备图片
             ImageLoader.getInstance().displayImage(convertView.getContext().getString(R.string.ip) + "img/dianji.png", image, MyApplication.getLoaderOptions());
             //将位置传给Mylistener,EquipmentNow
             EquipmentAdapter.EquipmentNow equipmentNow = new EquipmentAdapter.EquipmentNow(group, child);
             final EquipmentAdapter.MyListener myListener = new EquipmentAdapter.MyListener(group, child,convertView.getContext().getString(R.string.ip),list.get(child).getMachineId());
-
             //判断设备状况
             if ((list.get(child).getMachineFs()==1)) {
                 jellyToggleButton.setCheckedImmediately( false, false );
+
                 //设置按钮不可以点击
                 jellyToggleButton.setEnabled(false);
                 imageView.setOnClickListener(equipmentNow);
