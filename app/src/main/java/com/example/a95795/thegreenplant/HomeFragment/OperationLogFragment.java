@@ -1,11 +1,8 @@
-package com.example.a95795.thegreenplant;
+package com.example.a95795.thegreenplant.HomeFragment;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -21,21 +18,16 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.a95795.thegreenplant.HomeFragment.EquipmentFragment;
-import com.example.a95795.thegreenplant.HomeFragment.EquipmentItemFragment;
-import com.example.a95795.thegreenplant.adapter.EnvironmentAdapter;
+import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.adapter.LogAdapter;
 import com.example.a95795.thegreenplant.custom.Log;
-import com.example.a95795.thegreenplant.custom.Machine;
 import com.example.a95795.thegreenplant.custom.MyApplication;
-import com.example.a95795.thegreenplant.custom.WorkShopJudge;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.liaoinstan.springview.container.DefaultHeader;
 import com.liaoinstan.springview.widget.SpringView;
 
 import org.angmarch.views.NiceSpinner;
-import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -45,8 +37,6 @@ import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.SupportFragment;
-import rm.com.longpresspopup.LongPressPopup;
-import rm.com.longpresspopup.LongPressPopupBuilder;
 
 
 /**

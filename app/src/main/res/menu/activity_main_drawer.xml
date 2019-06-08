@@ -31,7 +31,7 @@
 
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="版本号：2.0">
         <menu>
             <item
                 android:id="@+id/nav_share"

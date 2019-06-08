@@ -52,7 +52,7 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
     private String feed;
     private boolean isback;
     SubmitButton sBtnLoading;
-    private int MAX=1000;
+    private int MAX=100;
     public static FeedbackFragment newInstance() {
         return new FeedbackFragment();
     }

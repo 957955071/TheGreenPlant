@@ -17,11 +17,16 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.location.BDAbstractLocationListener;
+import com.baidu.location.BDLocation;
 import com.example.a95795.thegreenplant.HomeFragment.FeedbackFragment;
 import com.example.a95795.thegreenplant.HomeFragment.HomeFragment;
+import com.example.a95795.thegreenplant.HomeFragment.OperationLogFragment;
+import com.example.a95795.thegreenplant.custom.LocationService;
 import com.example.a95795.thegreenplant.custom.SecretTextView;
 import com.example.a95795.thegreenplant.custom.StatusBarCompat;
 import com.example.a95795.thegreenplant.side.AboutFragment;
@@ -47,7 +52,11 @@ public class HomeActivity extends SupportActivity
     public static final int FOUR = 4;
     public static final int FIVE = 5;
 
+    private LocationService locationService;
+    private TextView mTextView;
+
     private int postion = 0;
+    private TextView textView;
 
 
     private SupportFragment[] mFragments = new SupportFragment[6];
@@ -57,7 +66,9 @@ public class HomeActivity extends SupportActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
+        Context ctx = getContext();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        String name = sp.getString("STRING_KEY3","");
 
         imageView = findViewById(R.id.imageView3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -73,6 +84,21 @@ public class HomeActivity extends SupportActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        locationService = new LocationService(this);
+//        多个activity
+//        locationService = ((App) getApplication()).locationService;
+        locationService.registerListener(mListener);
+        locationService.setLocationOption(locationService.getDefaultLocationClientOption());
+        locationService.start();
+
+        //设置顶部姓名
+        View headerview = navigationView.getHeaderView(0);
+        textView = headerview.findViewById(R.id.username);
+        textView.setText(name);
+
+        View headerview2 = navigationView.getHeaderView(0);
+        mTextView = headerview2.findViewById(R.id.price);
 
         SupportFragment firstFragment = findFragment(HomeFragment.class);
         if (firstFragment == null) {
@@ -197,7 +223,7 @@ public class HomeActivity extends SupportActivity
             test(5);
         } else if (id == R.id.nav_send) {
             new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.SUCCESS_TYPE)
-                    .setContentText("您的版本已经是最新版1.0")
+                    .setContentText("您的版本已经是最新版2.0")
                     .setConfirmText("确定")
                     .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -294,7 +320,36 @@ public class HomeActivity extends SupportActivity
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        locationService.unregisterListener(mListener); //注销掉监听
+        locationService.stop(); //停止定位服务
+    }
 
+    /*****
+     *
+     * 定位结果回调，重写onReceiveLocation方法，可以直接拷贝如下代码到自己工程中修改
+     *
+     */
+    private BDAbstractLocationListener mListener = new BDAbstractLocationListener() {
+
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            // TODO Auto-generated method stub
+            if (null != location && location.getLocType() != BDLocation.TypeServerError) {
+                mTextView.setText(location.getAddrStr());
+                //超级精确！！！！！以下方法--》周边信息
+             /*   if (location.getPoiList() != null && !location.getPoiList().isEmpty()) {
+                    for (int i = 0; i < location.getPoiList().size(); i++) {
+                        Poi poi = (Poi) location.getPoiList().get(i);
+                        sb.append(poi.getName() + ";");
+                    }
+                }*/
+            }
+        }
+
+    };
 
 
 

@@ -8,27 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.a95795.thegreenplant.HomeFragment.EnvironmentFragment;
-import com.example.a95795.thegreenplant.HomeFragment.EquipmentItemFragment;
-import com.example.a95795.thegreenplant.OperationLogFragment;
 import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.custom.Machine;
 import com.example.a95795.thegreenplant.custom.MyApplication;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.nightonke.jellytogglebutton.JellyToggleButton;
 import com.nightonke.jellytogglebutton.JellyTypes.Jelly;
 import com.nightonke.jellytogglebutton.State;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -39,7 +32,6 @@ import java.util.TimeZone;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static android.content.Context.MODE_PRIVATE;
-import static com.mob.tools.utils.Strings.getString;
 import static com.nightonke.jellytogglebutton.JellyTypes.Jelly.ACTIVE_TREMBLE_BODY_SLIM_JIM;
 
 /**
