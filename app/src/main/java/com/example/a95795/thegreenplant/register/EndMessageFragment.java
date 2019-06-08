@@ -161,6 +161,35 @@ public class EndMessageFragment extends SupportFragment {
                                                     @Override
                                                     public void run() {
                                                         popTo(PhoneFragment.class, true);
+                                                        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                                                        String ee = dff.format(new Date());
+                                                        String url = getString(R.string.ip) + "user/LogAdd";
+                                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                                                Request.Method.POST,
+                                                                url,
+                                                                "{\n" +
+                                                                        "\t\n" +
+                                                                        "            \"userId\": \""+Job_Number+"\",\n" +
+                                                                        "            \"userName\": \""+subjectList.get(0).getUserName()+"\",\n" +
+                                                                        "            \"date\": \""+ee+"\",\n" +
+                                                                        "            \"log\": \"注册软件\",\n" +
+                                                                        "            \"logType\": 2\n" +
+                                                                        "}",
+                                                                new Response.Listener<JSONObject>(){
+                                                                    @Override
+                                                                    public void onResponse(JSONObject response) {
+
+                                                                    }
+                                                                },
+                                                                new Response.ErrorListener(){
+                                                                    @Override
+                                                                    public void onErrorResponse(VolleyError error) {
+
+                                                                    }
+                                                                }
+                                                        );
+                                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
                                                     }
                                                 }, 1000);    //延时1s执行
                                             }

@@ -1,4 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
+<com.liaoinstan.springview.widget.SpringView
+    android:id="@+id/Spview_spbranchList"
+    android:layout_width="wrap_content"
+    android:layout_gravity="center"
+    android:layout_height="wrap_content"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -31,7 +37,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_marginTop="5dp"
-            android:layout_height="30dp"
+            android:layout_height="50dp"
             android:orientation="horizontal">
 
             <TextView
@@ -56,13 +62,14 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="操作时间" />
-            <TextView
+
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/nice_spinner2"
                 android:layout_width="50dp"
                 android:layout_weight="1"
                 android:background="@drawable/textview_border"
-                android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="操作内容" />
+                android:layout_height="match_parent" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -78,3 +85,4 @@
 
     </LinearLayout>
 </FrameLayout>
+</com.liaoinstan.springview.widget.SpringView>

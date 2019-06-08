@@ -243,10 +243,12 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     Request.Method.POST,
                     url,
                     "{\n" +
+                            "\t\n" +
                             "            \"userId\": \""+userid+"\",\n" +
                             "            \"userName\": \""+name+"\",\n" +
                             "            \"date\": \""+ee+"\",\n" +
-                            "            \"log\": \"打开了"+MachineId+"号设备\"\n" +
+                            "            \"log\": \"打开了"+MachineId+"号设备\",\n" +
+                            "            \"logType\": 3\n" +
                             "}",
                     new Response.Listener<JSONObject>(){
                         @Override
@@ -257,7 +259,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     new Response.ErrorListener(){
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+
                         }
                     }
             );
@@ -273,10 +275,12 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     Request.Method.POST,
                     url,
                     "{\n" +
+                            "\t\n" +
                             "            \"userId\": \""+userid+"\",\n" +
                             "            \"userName\": \""+name+"\",\n" +
                             "            \"date\": \""+ee+"\",\n" +
-                            "            \"log\": \"关闭了"+MachineId+"号设备\"\n" +
+                            "            \"log\": \"关闭了"+MachineId+"号设备\",\n" +
+                            "            \"logType\": 3\n" +
                             "}",
                     new Response.Listener<JSONObject>(){
                         @Override
@@ -287,7 +291,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                     new Response.ErrorListener(){
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+
                         }
                     }
             );

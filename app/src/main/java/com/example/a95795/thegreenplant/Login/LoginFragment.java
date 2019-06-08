@@ -224,6 +224,35 @@ public class LoginFragment extends SupportFragment {
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
+                                        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                                        String ee = dff.format(new Date());
+                                        String url = getString(R.string.ip) + "user/LogAdd";
+                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                                Request.Method.POST,
+                                                url,
+                                                "{\n" +
+                                                        "\t\n" +
+                                                        "            \"userId\": \""+userid+"\",\n" +
+                                                        "            \"userName\": \""+name+"\",\n" +
+                                                        "            \"date\": \""+ee+"\",\n" +
+                                                        "            \"log\": \"登录软件\",\n" +
+                                                        "            \"logType\": 1\n" +
+                                                        "}",
+                                                new Response.Listener<JSONObject>(){
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+
+                                                    }
+                                                },
+                                                new Response.ErrorListener(){
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                }
+                                        );
+                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
 
                                     }
                                 }, 2000);    //延时2s执行
@@ -434,6 +463,35 @@ public class LoginFragment extends SupportFragment {
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
+                                        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                                        String ee = dff.format(new Date());
+                                        String url = getString(R.string.ip) + "user/LogAdd";
+                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                                Request.Method.POST,
+                                                url,
+                                                "{\n" +
+                                                        "\t\n" +
+                                                        "            \"userId\": \""+userid+"\",\n" +
+                                                        "            \"userName\": \""+name+"\",\n" +
+                                                        "            \"date\": \""+ee+"\",\n" +
+                                                        "            \"log\": \"登录软件\",\n" +
+                                                        "            \"logType\": 1\n" +
+                                                        "}",
+                                                new Response.Listener<JSONObject>(){
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+
+                                                    }
+                                                },
+                                                new Response.ErrorListener(){
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                }
+                                        );
+                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
                                     }
                                 }, 2000);    //延时2s执行
                             }
@@ -497,6 +555,35 @@ public class LoginFragment extends SupportFragment {
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
+                                        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                                        String ee = dff.format(new Date());
+                                        String url = getString(R.string.ip) + "user/LogAdd";
+                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                                Request.Method.POST,
+                                                url,
+                                                "{\n" +
+                                                        "\t\n" +
+                                                        "            \"userId\": \""+userid+"\",\n" +
+                                                        "            \"userName\": \""+name+"\",\n" +
+                                                        "            \"date\": \""+ee+"\",\n" +
+                                                        "            \"log\": \"登录软件\",\n" +
+                                                        "            \"logType\": 1\n" +
+                                                        "}",
+                                                new Response.Listener<JSONObject>(){
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
+
+                                                    }
+                                                },
+                                                new Response.ErrorListener(){
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                }
+                                        );
+                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
                                     }
                                 }, 2000);    //延时2s执行
 

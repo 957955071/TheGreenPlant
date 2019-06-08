@@ -117,15 +117,13 @@ public class PhoneFragment extends SupportFragment {
     }
     public void mac(){
         Mac = getMac();
-        phone = editText.getText().toString();
         String url = getString(R.string.ip) + "user/FindUserMac";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
                 "{\n" +
-                        "\t\"userCall\": \""+phone+"\",\n" +
-                        "\t \"userMac\": \""+Mac+"\"\n" +
-                        "\t\n" +
+                        "\t  \n" +
+                        "            \"userMac\": \""+Mac+"\"\n" +
                         "}",
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -135,7 +133,7 @@ public class PhoneFragment extends SupportFragment {
                             UserList = response.getString("UserList");
                             if (UserList.equals("0")) {
                                 jt_code(); code();
-                            } else {
+                            } else if(UserList.equals("1")){
                                 Toast.makeText(PhoneFragment.this.getActivity(),"本手机已经被注册过，如有疑问请于管理员联系",Toast.LENGTH_LONG).show();
 
                             }

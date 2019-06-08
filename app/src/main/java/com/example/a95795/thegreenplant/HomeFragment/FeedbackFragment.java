@@ -1,6 +1,8 @@
 package com.example.a95795.thegreenplant.HomeFragment;
 
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -16,13 +18,25 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.a95795.thegreenplant.R;
+import com.example.a95795.thegreenplant.custom.MyApplication;
 import com.unstoppable.submitbuttonview.SubmitButton;
+
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.ISupportFragment;
 import me.yokeyword.fragmentation_swipeback.SwipeBackFragment;
 
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -35,6 +49,7 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
     private TextView remaining, tv;
     private EditText et;
     private Button submit;
+    private String feed;
     private boolean isback;
     SubmitButton sBtnLoading;
     private int MAX=1000;
@@ -47,6 +62,10 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
         et=view.findViewById(R.id.useropinion_et);
         remaining=view.findViewById(R.id.useropinion_remaining);
         sBtnLoading=view.findViewById(R.id.submitbutton);
+        Context ctx = getContext();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        final String name = sp.getString("STRING_KEY3","");
+        final String userid = sp.getString("STRING_KEY4","");
         //submit=view.findViewById(R.id.useropinion_submit);
         et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -77,9 +96,11 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
                             .setConfirmText("确定")
                             .show();
                 } else {
+                    feed = et.getText().toString();
                     new Handler().postDelayed(new Runnable() {
                         @Override
                         public void run() {
+
                             sBtnLoading.doResult(true);
                             new SweetAlertDialog(FeedbackFragment.this.getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                                     .setContentText("您的反馈已提交完成，我们尽快处理问题")
@@ -91,6 +112,33 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
                                         }
                                     })
                                     .show();
+                            SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+                            String ee = dff.format(new Date());
+                            String url = getString(R.string.ip) + "user/LogAdd";
+                            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                    Request.Method.POST,
+                                    url,
+                                    "{\n" +
+                                            "\t \"userId\": \""+userid+"\",\n" +
+                                            "            \"userName\": \""+name+"\",\n" +
+                                            "            \"date\": \""+ee+"\",\n" +
+                                            "            \"userFeedback\": \""+feed+"\"\n" +
+                                            "}",
+                                    new Response.Listener<JSONObject>(){
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+
+                                        }
+                                    },
+                                    new Response.ErrorListener(){
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+
+                                        }
+                                    }
+                            );
+                            MyApplication.addRequest(jsonObjectRequest,"MainActivity");
                         }
                     }, 2000);
                 }

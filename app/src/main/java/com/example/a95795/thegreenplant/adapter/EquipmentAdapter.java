@@ -232,10 +232,12 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     Request.Method.POST,
                     url,
                     "{\n" +
+                            "\t\n" +
                             "            \"userId\": \""+userid+"\",\n" +
                             "            \"userName\": \""+name+"\",\n" +
                             "            \"date\": \""+ee+"\",\n" +
-                            "            \"log\": \"打开了"+MachineId+"号电机\"\n" +
+                            "            \"log\": \"打开了"+MachineId+"号电机\",\n" +
+                            "            \"logType\": 3\n" +
                             "}",
                     new Response.Listener<JSONObject>(){
                         @Override
@@ -246,7 +248,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     new Response.ErrorListener(){
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+
                         }
                     }
             );
@@ -262,10 +264,12 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     Request.Method.POST,
                     url,
                     "{\n" +
+                            "\t\n" +
                             "            \"userId\": \""+userid+"\",\n" +
                             "            \"userName\": \""+name+"\",\n" +
                             "            \"date\": \""+ee+"\",\n" +
-                            "            \"log\": \"关闭了"+MachineId+"号电机\"\n" +
+                            "            \"log\": \"关闭了"+MachineId+"号电机\",\n" +
+                            "            \"logType\": 3\n" +
                             "}",
                     new Response.Listener<JSONObject>(){
                         @Override
@@ -276,7 +280,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     new Response.ErrorListener(){
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            com.example.a95795.thegreenplant.custom.Log.d("volley",error.toString());
+
                         }
                     }
             );

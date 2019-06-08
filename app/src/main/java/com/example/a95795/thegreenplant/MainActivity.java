@@ -1,9 +1,12 @@
 package com.example.a95795.thegreenplant;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
@@ -76,45 +79,7 @@ public class MainActivity extends SupportActivity  {
     }
     //网络是否正确
     public void web(){
-        num = "0";
-        String url = getString(R.string.ip) + "user/Web";
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                "",
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            String UserList;
-                            UserList = response.getString("UserList");
-                            if (UserList.equals("1")) {
-                                SharedPreferences rememberUser = getSharedPreferences("login", MODE_PRIVATE);//获取模式
-                                SharedPreferences.Editor edit = rememberUser.edit();
-                                edit.putString("name", "1");
-                                edit.commit();
-
-                            } else {
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("volley", error.toString());
-                    }
-                }
-        );
-        MyApplication.addRequest(jsonObjectRequest, "MainActivity");
-        SharedPreferences sharedPreferences = getSharedPreferences("login", MODE_PRIVATE);
-        String name_str = sharedPreferences.getString("name", "");
-        num = name_str;
-        if(num.equals("1")){
-        }else {
+        if(!isNetworkAvailable(MainActivity.this)){
             new SweetAlertDialog(MainActivity.this, SweetAlertDialog.WARNING_TYPE)
                     .setTitleText("提示")
                     .setContentText("网络出现问题，请检查网络设置！")
@@ -129,6 +94,28 @@ public class MainActivity extends SupportActivity  {
                     })
                     .show();
         }
+    }
+    /**
+     * 检测当的网络（WLAN、3G/2G）状态
+     * @param context Context
+     * @return true 表示网络可用
+     */
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivity = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivity != null) {
+            NetworkInfo info = connectivity.getActiveNetworkInfo();
+            if (info != null && info.isConnected())
+            {
+                // 当前网络是连接的
+                if (info.getState() == NetworkInfo.State.CONNECTED)
+                {
+                    // 当前所连接的网络可用
+                    return true;
+                }
+            }
+        }
+        return false;
     }
     //显示和隐藏fragment
     public void setClick(int type) {

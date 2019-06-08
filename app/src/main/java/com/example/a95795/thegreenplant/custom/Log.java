@@ -11,11 +11,7 @@ public class Log {
 
     private String log;
 
-    public static void d(String volley, String toString) {
-    }
-
-    public static void e(String sub_thread, String s) {
-    }
+    private Integer logType;
 
     public Integer getId() {
         return id;
@@ -55,5 +51,13 @@ public class Log {
 
     public void setLog(String log) {
         this.log = log == null ? null : log.trim();
+    }
+
+    public Integer getLogType() {
+        return logType;
+    }
+
+    public void setLogType(Integer logType) {
+        this.logType = logType;
     }
 }
