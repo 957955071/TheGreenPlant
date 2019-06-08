@@ -62,10 +62,7 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
         et=view.findViewById(R.id.useropinion_et);
         remaining=view.findViewById(R.id.useropinion_remaining);
         sBtnLoading=view.findViewById(R.id.submitbutton);
-        Context ctx = getContext();
-        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
-        final String name = sp.getString("STRING_KEY3","");
-        final String userid = sp.getString("STRING_KEY4","");
+
         //submit=view.findViewById(R.id.useropinion_submit);
         et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -98,6 +95,10 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
                 } else {
                     feed = et.getText().toString();
                     new Handler().postDelayed(new Runnable() {
+                        Context ctx = getContext();
+                        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+                        String name = sp.getString("STRING_KEY3","");
+                        String userid = sp.getString("STRING_KEY4","");
                         @Override
                         public void run() {
 
@@ -115,7 +116,7 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
                             SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
                             String ee = dff.format(new Date());
-                            String url = getString(R.string.ip) + "user/LogAdd";
+                            String url = getString(R.string.ip) + "user/FeedbackAdd";
                             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                                     Request.Method.POST,
                                     url,
