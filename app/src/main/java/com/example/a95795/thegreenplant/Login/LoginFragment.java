@@ -56,8 +56,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -203,9 +206,11 @@ public class LoginFragment extends SupportFragment {
                                 final String name = subjectList.get(0).getUserName();
                                 final String userid = subjectList.get(0).getUserId();
                                 remeber();
+
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
+
                                         spinKitView.setVisibility(View.GONE);
                                         Intent intent = new Intent(LoginFragment.this.getActivity(), HomeActivity.class);
                                         Context ctx = LoginFragment.this.getActivity();
@@ -219,6 +224,7 @@ public class LoginFragment extends SupportFragment {
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
+
                                     }
                                 }, 2000);    //延时2s执行
 
@@ -396,9 +402,15 @@ public class LoginFragment extends SupportFragment {
                             final Gson gson = new Gson();
 
                             if (UserList.equals("0")) {
-                                Toast.makeText(LoginFragment.this.getActivity(), "密码错误，请检查账号或密码", Toast.LENGTH_LONG).show();
+
+                                new Handler().postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        spinKitView.setVisibility(View.GONE);
+                                        Toast.makeText(LoginFragment.this.getActivity(), "密码错误，请检查账号或密码", Toast.LENGTH_LONG).show();
+                                    }
+                                }, 2000);    //延时2s执行
                             } else {
-                                Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
                                 final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 final int id  = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
@@ -408,6 +420,7 @@ public class LoginFragment extends SupportFragment {
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
                                         spinKitView.setVisibility(View.GONE);
                                         Intent intent = new Intent(LoginFragment.this.getActivity(), HomeActivity.class);
                                         Context ctx = LoginFragment.this.getActivity();

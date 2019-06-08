@@ -20,13 +20,20 @@ import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.custom.Message;
 import com.example.a95795.thegreenplant.custom.Message_all;
 import com.example.a95795.thegreenplant.custom.MyApplication;
+import com.example.a95795.thegreenplant.custom.User;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.SupportFragment;
@@ -136,11 +143,13 @@ public class EndMessageFragment extends SupportFragment {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
+                            Gson gson = new Gson();
                             String UserList;
                             UserList = response.getString("UserList");
                             if (UserList.equals("1")) {
                                 userId.setError("用户名重复，请重新输入");
                             } else {
+                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
                                 new SweetAlertDialog(EndMessageFragment.this.getActivity(), SweetAlertDialog.SUCCESS_TYPE)
                                         .setContentText("您已注册成功，请妥善保管好自己的账号，点击 [确定] 按钮后将为您跳转到登录页面")
                                         .setConfirmText("确定")
@@ -172,4 +181,8 @@ public class EndMessageFragment extends SupportFragment {
         );
         MyApplication.addRequest(jsonObjectRequest, "MainActivity");
     }
+
+
+
+
 }

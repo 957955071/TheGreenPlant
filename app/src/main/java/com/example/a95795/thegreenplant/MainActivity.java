@@ -48,7 +48,7 @@ public class MainActivity extends SupportActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         web();
-        loadRootFragment(R.id.Home, LoginFragment.newInstance()); //activity初始加载LogonFragment
+        loadRootFragment(R.id.Home, LoginFragment.newInstance(),true,true); //activity初始加载LogonFragment
 
 
         //适配三大虚拟键 避免遮盖控件

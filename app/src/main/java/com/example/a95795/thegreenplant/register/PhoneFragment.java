@@ -66,7 +66,7 @@ public class PhoneFragment extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view  = inflater.inflate(R.layout.fragment_phone, container, false);
-        Mac = getMac();
+
         init(view);   send();next();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -116,6 +116,7 @@ public class PhoneFragment extends SupportFragment {
         });
     }
     public void mac(){
+        Mac = getMac();
         phone = editText.getText().toString();
         String url = getString(R.string.ip) + "user/FindUserMac";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
@@ -134,7 +135,6 @@ public class PhoneFragment extends SupportFragment {
                             UserList = response.getString("UserList");
                             if (UserList.equals("0")) {
                                 jt_code(); code();
-
                             } else {
                                 Toast.makeText(PhoneFragment.this.getActivity(),"本手机已经被注册过，如有疑问请于管理员联系",Toast.LENGTH_LONG).show();
 

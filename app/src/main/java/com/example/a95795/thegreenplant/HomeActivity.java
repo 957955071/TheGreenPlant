@@ -1,8 +1,10 @@
 package com.example.a95795.thegreenplant;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.a95795.thegreenplant.HomeFragment.FeedbackFragment;
 import com.example.a95795.thegreenplant.HomeFragment.HomeFragment;
@@ -28,6 +31,8 @@ import com.example.a95795.thegreenplant.side.WorkshopInformationFragment;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.SupportFragment;
+
+import static com.mob.MobSDK.getContext;
 
 public class HomeActivity extends SupportActivity
 
@@ -53,6 +58,7 @@ public class HomeActivity extends SupportActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+
         imageView = findViewById(R.id.imageView3);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
@@ -67,6 +73,7 @@ public class HomeActivity extends SupportActivity
         toggle.syncState();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
         SupportFragment firstFragment = findFragment(HomeFragment.class);
         if (firstFragment == null) {
             mFragments[FIRST] = HomeFragment.newInstance();
@@ -119,7 +126,13 @@ public class HomeActivity extends SupportActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
+        } else if(postion!=0) {
+            showHideFragment(mFragments[0], mFragments[postion]);
+            postion = 0;
+            secretTextView.hide();
+            secretTextView.setText("首页");
+            secretTextView.show();
+        }else {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("提示：");
             builder.setMessage("您确定退出？");
@@ -141,8 +154,9 @@ public class HomeActivity extends SupportActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-
-
+        Context ctx = getContext();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        int Workshop = sp.getInt("STRING_KEY2",0);
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         if(id==R.id.homeitem){
@@ -155,9 +169,17 @@ public class HomeActivity extends SupportActivity
         } else if (id == R.id.nav_camera) {
 
         } else if (id == R.id.nav_gallery) {
-            showHideFragment(mFragments[2], mFragments[postion]);
-            test(4);
-            postion = 2;
+            if(Workshop==0){
+                new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("警告")
+                        .setContentText("抱歉，你没有权利使用此功能")
+                        .setConfirmText("确定")
+                        .show();
+            }else {
+                showHideFragment(mFragments[2], mFragments[postion]);
+                test(4);
+                postion = 2;
+            }
         } else if (id == R.id.nav_slideshow) {//设置
 
             showHideFragment(mFragments[3], mFragments[postion]);
@@ -185,9 +207,20 @@ public class HomeActivity extends SupportActivity
                     })
                     .show();
         }else if (id == R.id.feed) {
-            showHideFragment(mFragments[5], mFragments[postion]);
-            test(8);
-            postion = 5;
+            if(Workshop==0){
+                new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("警告")
+                        .setContentText("抱歉，你没有权利使用此功能")
+                        .setConfirmText("确定")
+                        .show();
+            }else {
+
+                showHideFragment(mFragments[5], mFragments[postion]);
+                test(8);
+                postion = 5;
+
+            }
+
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

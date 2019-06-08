@@ -184,7 +184,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
+                            addlogLeft();
                         }
                     },
                     new Response.ErrorListener() {
@@ -210,7 +210,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-
+                            addlogRight();
                         }
                     },
                     new Response.ErrorListener() {
@@ -223,10 +223,11 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
             MyApplication.addRequest(jsonObjectRequest, "MainActivity");
         }
         public void addlogRight(){
+            //获取网络时间  精确到秒
             SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
             String ee = dff.format(new Date());
-            String url = getString(R.string.ip) + "user/LogAdd";
+            String url = IP + "user/LogAdd";
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
                     url,
@@ -256,7 +257,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
             dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
             String ee = dff.format(new Date());
 
-            String url = getString(R.string.ip) + "user/LogAdd";
+            String url = IP + "user/LogAdd";
             JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                     Request.Method.POST,
                     url,

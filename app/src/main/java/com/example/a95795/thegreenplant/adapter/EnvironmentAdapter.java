@@ -246,7 +246,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                             "            \"userId\": \""+userid+"\",\n" +
                             "            \"userName\": \""+name+"\",\n" +
                             "            \"date\": \""+ee+"\",\n" +
-                            "            \"log\": \"打开了"+MachineId+"号电机\"\n" +
+                            "            \"log\": \"打开了"+MachineId+"号设备\"\n" +
                             "}",
                     new Response.Listener<JSONObject>(){
                         @Override
@@ -276,7 +276,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                             "            \"userId\": \""+userid+"\",\n" +
                             "            \"userName\": \""+name+"\",\n" +
                             "            \"date\": \""+ee+"\",\n" +
-                            "            \"log\": \"关闭了"+MachineId+"号电机\"\n" +
+                            "            \"log\": \"关闭了"+MachineId+"号设备\"\n" +
                             "}",
                     new Response.Listener<JSONObject>(){
                         @Override
