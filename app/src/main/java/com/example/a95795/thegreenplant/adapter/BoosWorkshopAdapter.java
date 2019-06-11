@@ -27,10 +27,10 @@ public class BoosWorkshopAdapter extends RecyclerView.Adapter<BoosWorkshopAdapte
         TextView textView4;
         public ViewHolder(View view){
             super(view);
-            TextView textView1 = view.findViewById(R.id.WorkshoptextView2);
-            TextView textView2 = view.findViewById(R.id.WorkshoptextView3);
-            TextView textView3 = view.findViewById(R.id.WorkshoptextView4);
-            TextView textView4 = view.findViewById(R.id.WorkshoptextView5);
+             textView1 = view.findViewById(R.id.WorkshoptextView2);
+             textView2 = view.findViewById(R.id.WorkshoptextView3);
+             textView3 = view.findViewById(R.id.WorkshoptextView4);
+             textView4 = view.findViewById(R.id.WorkshoptextView5);
         }
     }
     public BoosWorkshopAdapter(List<User> users){
@@ -41,6 +41,7 @@ public class BoosWorkshopAdapter extends RecyclerView.Adapter<BoosWorkshopAdapte
     public ViewHolder onCreateViewHolder( ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.workshop,parent,false);
         ViewHolder holder = new ViewHolder(view);
+
         return holder;
     }
 

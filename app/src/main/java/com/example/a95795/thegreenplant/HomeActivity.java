@@ -208,15 +208,15 @@ public class HomeActivity extends SupportActivity
                         .setConfirmText("确定")
                         .show();
             }else {
-                showHideFragment(mFragments[2], mFragments[postion]);
+                showHideFragment(mFragments[6], mFragments[postion]);
                 test(4);
-                postion = 2;
+                postion = 6;
             }
         } else if (id == R.id.nav_slideshow) {//设置
 
-            showHideFragment(mFragments[6], mFragments[postion]);
+            showHideFragment(mFragments[3], mFragments[postion]);
             test(6);
-            postion = 6;
+            postion = 3;
 
         } else if (id == R.id.nav_manage) {//用户反馈
             showHideFragment(mFragments[4], mFragments[postion]);
