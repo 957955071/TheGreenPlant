@@ -26,10 +26,12 @@ import com.baidu.location.BDLocation;
 import com.example.a95795.thegreenplant.HomeFragment.FeedbackFragment;
 import com.example.a95795.thegreenplant.HomeFragment.HomeFragment;
 import com.example.a95795.thegreenplant.HomeFragment.OperationLogFragment;
+import com.example.a95795.thegreenplant.adapter.BoosWorkshopAdapter;
 import com.example.a95795.thegreenplant.custom.LocationService;
 import com.example.a95795.thegreenplant.custom.SecretTextView;
 import com.example.a95795.thegreenplant.custom.StatusBarCompat;
 import com.example.a95795.thegreenplant.side.AboutFragment;
+import com.example.a95795.thegreenplant.side.BoosWorkshopInformationFragmentFragment;
 import com.example.a95795.thegreenplant.side.SetMaxVauleFragment;
 import com.example.a95795.thegreenplant.side.WorkshopInformationFragment;
 
@@ -51,15 +53,15 @@ public class HomeActivity extends SupportActivity
     public static final int FOURTHLY = 3;
     public static final int FOUR = 4;
     public static final int FIVE = 5;
+    public static final int SIX = 6;
 
     private LocationService locationService;
     private TextView mTextView;
-
     private int postion = 0;
     private TextView textView;
 
 
-    private SupportFragment[] mFragments = new SupportFragment[6];
+    private SupportFragment[] mFragments = new SupportFragment[7];
 
 
     @Override
@@ -86,6 +88,7 @@ public class HomeActivity extends SupportActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         locationService = new LocationService(this);
+
 //        多个activity
 //        locationService = ((App) getApplication()).locationService;
         locationService.registerListener(mListener);
@@ -108,13 +111,15 @@ public class HomeActivity extends SupportActivity
             mFragments[FOURTHLY] = SetMaxVauleFragment.newInstance();
             mFragments[FOUR] = FeedbackFragment.newInstance();
             mFragments[FIVE] = OperationLogFragment.newInstance();
+            mFragments[SIX] = BoosWorkshopInformationFragmentFragment.newInstance();
             loadMultipleRootFragment(R.id.home, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
                     mFragments[THIRDLY],
                     mFragments[FOURTHLY],
                     mFragments[FOUR],
-                    mFragments[FIVE]);
+                    mFragments[FIVE],
+                    mFragments[SIX]);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
@@ -125,6 +130,7 @@ public class HomeActivity extends SupportActivity
             mFragments[FOURTHLY] = findFragment(SetMaxVauleFragment.class);
             mFragments[FOUR] = findFragment(FeedbackFragment.class);
             mFragments[FIVE] = findFragment(OperationLogFragment.class);
+            mFragments[SIX] = findFragment(BoosWorkshopInformationFragmentFragment.class);
         }
 
 
@@ -208,9 +214,9 @@ public class HomeActivity extends SupportActivity
             }
         } else if (id == R.id.nav_slideshow) {//设置
 
-            showHideFragment(mFragments[3], mFragments[postion]);
+            showHideFragment(mFragments[6], mFragments[postion]);
             test(6);
-            postion = 3;
+            postion = 6;
 
         } else if (id == R.id.nav_manage) {//用户反馈
             showHideFragment(mFragments[4], mFragments[postion]);
