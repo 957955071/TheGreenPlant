@@ -73,7 +73,7 @@ public class UploadingFragment extends SupportFragment {
                 "/sdcard/IMG_1528.JPG"));
         Map<String, String> params = new HashMap<String, String>();
         params.put("token", "DJrlPbpJQs21rv1lP41yiA==");
-        String uri = "http://nanhai655.cn:8888//Uploadfile/uploadServlet";
+        String uri = "http://134.175.176.168:80/Uploadfile/uploadServlet";
         addPutUploadFileRequest(
                 uri,
                 files, params, mResonseListenerString, mErrorListener, null);
