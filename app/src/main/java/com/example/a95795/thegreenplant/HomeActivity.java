@@ -33,6 +33,7 @@ import com.example.a95795.thegreenplant.custom.StatusBarCompat;
 import com.example.a95795.thegreenplant.side.AboutFragment;
 import com.example.a95795.thegreenplant.side.BoosWorkshopInformationFragmentFragment;
 import com.example.a95795.thegreenplant.side.SetMaxVauleFragment;
+import com.example.a95795.thegreenplant.side.UploadingFragment;
 import com.example.a95795.thegreenplant.side.WorkshopInformationFragment;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -45,7 +46,7 @@ public class HomeActivity extends SupportActivity
 
         implements NavigationView.OnNavigationItemSelectedListener {
     SecretTextView secretTextView;
-    ImageView imageView;
+    ImageView imageView,imageView2;
 
     public static final int FIRST = 0;
     public static final int SECOND = 1;
@@ -54,6 +55,7 @@ public class HomeActivity extends SupportActivity
     public static final int FOUR = 4;
     public static final int FIVE = 5;
     public static final int SIX = 6;
+    public static final int EIGHT = 7;
 
     private LocationService locationService;
     private TextView mTextView;
@@ -61,7 +63,7 @@ public class HomeActivity extends SupportActivity
     private TextView textView;
 
 
-    private SupportFragment[] mFragments = new SupportFragment[7];
+    private SupportFragment[] mFragments = new SupportFragment[8];
 
 
     @Override
@@ -73,6 +75,7 @@ public class HomeActivity extends SupportActivity
         String name = sp.getString("STRING_KEY3","");
 
         imageView = findViewById(R.id.imageView3);
+        imageView2 = findViewById(R.id.pz);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         //沉浸式状态栏
@@ -112,6 +115,7 @@ public class HomeActivity extends SupportActivity
             mFragments[FOUR] = FeedbackFragment.newInstance();
             mFragments[FIVE] = OperationLogFragment.newInstance();
             mFragments[SIX] = BoosWorkshopInformationFragmentFragment.newInstance();
+            mFragments[EIGHT] = UploadingFragment.newInstance();;
             loadMultipleRootFragment(R.id.home, FIRST,
                     mFragments[FIRST],
                     mFragments[SECOND],
@@ -119,7 +123,8 @@ public class HomeActivity extends SupportActivity
                     mFragments[FOURTHLY],
                     mFragments[FOUR],
                     mFragments[FIVE],
-                    mFragments[SIX]);
+                    mFragments[SIX],
+                    mFragments[EIGHT]);
         } else {
             // 这里库已经做了Fragment恢复,所有不需要额外的处理了, 不会出现重叠问题
 
@@ -131,6 +136,7 @@ public class HomeActivity extends SupportActivity
             mFragments[FOUR] = findFragment(FeedbackFragment.class);
             mFragments[FIVE] = findFragment(OperationLogFragment.class);
             mFragments[SIX] = findFragment(BoosWorkshopInformationFragmentFragment.class);
+            mFragments[EIGHT] = findFragment(UploadingFragment.class);
         }
 
 
@@ -140,11 +146,19 @@ public class HomeActivity extends SupportActivity
         secretTextView.setDuration(1000);
         secretTextView.setIsVisible(true);
         //实时视图的按钮
-        imageView.setOnClickListener(new View.OnClickListener() {
+        imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(HomeActivity.this, RealActivity.class);
                 startActivity(intent);
+            }
+        });
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showHideFragment(mFragments[7], mFragments[postion]);
+                postion = 7;
+                test(5);
             }
         });
 
@@ -263,52 +277,57 @@ public class HomeActivity extends SupportActivity
     public void test(int number) {
         switch (number) {
             case 1:
-                imageView.setVisibility(View.GONE);
+                imageView.setVisibility(View.VISIBLE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("设备监测");
                 secretTextView.show();
-
                 break;
             case 2:
-
-                imageView.setVisibility(View.VISIBLE);
+                imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.VISIBLE);
                 secretTextView.hide();
                 secretTextView.setText("环境监测");
                 secretTextView.show();
-
                 break;
             case 3:
                 imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("个人中心");
                 secretTextView.show();
                 break;
             case 4:
                 imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("车间人员信息");
                 secretTextView.show();
                 break;
             case 5:
                 imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("关于车间");
                 secretTextView.show();
                 break;
             case 6:
                 imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("监测设置");
                 secretTextView.show();
                 break;
             case 7:
                 imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("用户反馈");
                 secretTextView.show();
                 break;
             case 8:
                 imageView.setVisibility(View.GONE);
+                imageView2.setVisibility(View.GONE);
                 secretTextView.hide();
                 secretTextView.setText("操作日志");
                 secretTextView.show();

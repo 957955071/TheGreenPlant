@@ -39,6 +39,14 @@
                     android:layout_height="35dp"
                     android:layout_marginRight="10dp"
                     android:layout_alignParentRight="true"
+                    android:background="@mipmap/pz"/>
+                <ImageView
+                    android:layout_marginTop="5dp"
+                    android:id="@+id/pz"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_alignParentRight="true"
                     android:background="@drawable/real"/>
             </RelativeLayout>
 
