@@ -1,5 +1,7 @@
 package com.example.a95795.thegreenplant.dynamicLineChart;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,11 +12,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.a95795.thegreenplant.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.content.Context.MODE_PRIVATE;
 
 
 public class MonDynamicLineChartFrament extends Fragment implements View.OnClickListener{
@@ -27,6 +32,7 @@ public class MonDynamicLineChartFrament extends Fragment implements View.OnClick
     private Fragment currentFragment = new Fragment();
     private List<Fragment> fragments = new ArrayList<>();
     private int currentIndex = 0;
+    private int work, workShop;
 
     @Nullable
     @Override
@@ -52,6 +58,7 @@ public class MonDynamicLineChartFrament extends Fragment implements View.OnClick
             fragments.add(new MonWorkShop2ChartFragment());
             fragments.add(new MonWorkShop3ChartFragment());
             fragments.add(new MonWorkShop4ChartFragment());
+            isWork();
             showFragment();
         }
         return view;
@@ -73,7 +80,13 @@ public class MonDynamicLineChartFrament extends Fragment implements View.OnClick
         ll_wshop4 = view.findViewById(R.id.ll_wshop4);
         view_wshop4 = view.findViewById(R.id.view_wshop4);
         ll_wshop4.setOnClickListener(this);
-        }
+
+        //可以通过缓存数据  来使得全局软件获得数据
+        Context ctx = MonDynamicLineChartFrament.this.getActivity();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        workShop = sp.getInt("STRING_KEY5", 0);//获取车间
+        work = sp.getInt("STRING_KEY2", 0);//获取用户管理权限
+    }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -131,42 +144,94 @@ public class MonDynamicLineChartFrament extends Fragment implements View.OnClick
 
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_wshop1:
-                view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
-
-                view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                currentIndex = 0;
+                if (work==1) {
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    currentIndex = 0;
+                }else if(work==0&&workShop!=1){
+                    Toast.makeText(MonDynamicLineChartFrament.this.getActivity(), getString(R.string.power), Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.ll_wshop2:
-                view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-
-                view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
-                view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                currentIndex = 1;
+                if (work==1){
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    currentIndex = 1;
+                }else if (work==0&&workShop!=2){
+                    Toast.makeText(MonDynamicLineChartFrament.this.getActivity(), getString(R.string.power), Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.ll_wshop3:
-                view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-
-                view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
-                view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                currentIndex = 2;
+                if (work==1){
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    currentIndex = 2;
+                }else if (work==0&&workShop!=3){
+                    Toast.makeText(MonDynamicLineChartFrament.this.getActivity(), getString(R.string.power), Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.ll_wshop4:
-                view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-
-                view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
-                view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
-                currentIndex = 3;
+                if (work==1){
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    currentIndex = 3;
+                }else if (work==0&&workShop!=4){
+                    Toast.makeText(MonDynamicLineChartFrament.this.getActivity(), getString(R.string.power), Toast.LENGTH_LONG).show();
+                }
                 break;
         }
         showFragment();
     }
+
+    @SuppressWarnings("deprecation")
+    //权限设定
+    public void isWork(){
+        //非管理员权限
+        if(work==0){
+            switch (workShop){
+                case 1:
+                    currentIndex=0;
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    break;
+                case 2:
+                    currentIndex=1;
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    break;
+                case 3:
+                    currentIndex=2;
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    break;
+                case 4:
+                    currentIndex=3;
+                    view_wshop1.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop2.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop3.setBackground(getResources().getDrawable(R.drawable.shape_round_gray));
+                    view_wshop4.setBackground(getResources().getDrawable(R.drawable.shape_round_orange));
+                    break;
+            }
+        }
     }
+
+}

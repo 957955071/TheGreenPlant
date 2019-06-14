@@ -65,7 +65,8 @@ public class EquipmentFragment extends SupportFragment {
         return new EquipmentFragment();
     }
     // SpringView
-   public SpringView springView;
+    public SpringView springView;
+    private int i=0;
 
 //下拉刷新
     private Handler handler = new Handler(){
@@ -97,8 +98,10 @@ public class EquipmentFragment extends SupportFragment {
 
 
         judge();
-
-        judge2();
+        if(i==0) {
+            i++;
+            judge2();
+        }
         springView = (SpringView) view.findViewById(R.id.Spview_spbranchList);
         //下拉列表
 

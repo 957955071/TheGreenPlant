@@ -92,14 +92,16 @@ public class RealActivity extends SwipeBackActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                KeyEvent newEvent = new KeyEvent(KeyEvent.ACTION_DOWN,
-//                        KeyEvent.KEYCODE_BACK);
-//                onKeyDown(KeyEvent.KEYCODE_BACK, newEvent);
-                startActivity(new Intent(RealActivity.this,HomeActivity.class));
+                onBackPressed();
             }
         });
 
-}
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Log.e(TAG, "onBackPressed: 按下了返回键");
+    }
 
     public void getData() {
         String url = "https://free-api.heweather.net/s6/weather//now?location="+city+"&key="+getString(R.string.key);
@@ -271,7 +273,7 @@ public class RealActivity extends SwipeBackActivity {
                         getData2();
                         getData3();
                         getData4();
-                        Thread.sleep(3000);
+                        Thread.sleep(800000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

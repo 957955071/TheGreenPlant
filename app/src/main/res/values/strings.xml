@@ -19,6 +19,7 @@
     <string name="invalid_password">Password must be >5 characters</string>
     <string name="login_failed">"Login failed"</string>
     <integer name="animation_default_duration">400</integer>
-    <string name="key">353369ae5d5b401ea23d748679d45cb6</string>
+    <string name="power">对不起，您不是管理员没有此权限！</string>
+    <string name="key">8755925afed244f59dfd2a64725a3d57</string>
 
 </resources>

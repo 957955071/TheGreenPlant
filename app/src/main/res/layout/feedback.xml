@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/feedback1"
+            android:layout_width="50dp"
+            android:background="@drawable/textview_border"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="ID" />
+        <TextView
+            android:id="@+id/feedback2"
+            android:layout_width="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/textview_border"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="工号" />
+        <TextView
+            android:id="@+id/feedback3"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/textview_border"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="姓名" />
+        <TextView
+            android:id="@+id/feedback4"
+            android:layout_width="50dp"
+            android:layout_weight="1"
+            android:background="@drawable/textview_border"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="反馈时间" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/feedback5"
+            android:layout_width="wrap_content"
+            android:gravity="center_horizontal|center_vertical"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:text="反馈内容" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

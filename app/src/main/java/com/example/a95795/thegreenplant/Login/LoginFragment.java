@@ -79,7 +79,7 @@ public class LoginFragment extends SupportFragment {
     private Button button;
     private ImageView imageView;
     File file = null;
-    private int num ;
+    private int num;
     private SpinnerLoading spinnerLoading;
     private TextInputLayout mTILUsername, mTILUsername2;
 
@@ -200,11 +200,13 @@ public class LoginFragment extends SupportFragment {
                                 loginPhone();
                             } else {
                                 Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
-                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
-                                final int id  = subjectList.get(0).getId();
+                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(), new TypeToken<List<User>>() {
+                                }.getType());
+                                final int id = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
                                 final String name = subjectList.get(0).getUserName();
                                 final String userid = subjectList.get(0).getUserId();
+                                final int workShop = subjectList.get(0).getUserWorkshop();
                                 remeber();
 
                                 new Handler().postDelayed(new Runnable() {
@@ -221,6 +223,8 @@ public class LoginFragment extends SupportFragment {
                                         editor.putInt("STRING_KEY2", work);
                                         editor.putString("STRING_KEY3", name);
                                         editor.putString("STRING_KEY4", userid);
+                                        editor.putInt("STRING_KEY5", workShop);
+
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
@@ -233,26 +237,26 @@ public class LoginFragment extends SupportFragment {
                                                 url,
                                                 "{\n" +
                                                         "\t\n" +
-                                                        "            \"userId\": \""+userid+"\",\n" +
-                                                        "            \"userName\": \""+name+"\",\n" +
-                                                        "            \"date\": \""+ee+"\",\n" +
+                                                        "            \"userId\": \"" + userid + "\",\n" +
+                                                        "            \"userName\": \"" + name + "\",\n" +
+                                                        "            \"date\": \"" + ee + "\",\n" +
                                                         "            \"log\": \"登录软件\",\n" +
                                                         "            \"logType\": 1\n" +
                                                         "}",
-                                                new Response.Listener<JSONObject>(){
+                                                new Response.Listener<JSONObject>() {
                                                     @Override
                                                     public void onResponse(JSONObject response) {
 
                                                     }
                                                 },
-                                                new Response.ErrorListener(){
+                                                new Response.ErrorListener() {
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
 
                                                     }
                                                 }
                                         );
-                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
+                                        MyApplication.addRequest(jsonObjectRequest, "MainActivity");
 
                                     }
                                 }, 2000);    //延时2s执行
@@ -440,11 +444,14 @@ public class LoginFragment extends SupportFragment {
                                     }
                                 }, 2000);    //延时2s执行
                             } else {
-                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
-                                final int id  = subjectList.get(0).getId();
+                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(), new TypeToken<List<User>>() {
+                                }.getType());
+                                final int id = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
                                 final String name = subjectList.get(0).getUserName();
                                 final String userid = subjectList.get(0).getUserId();
+                                final int workShop = subjectList.get(0).getUserWorkshop();
+
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -460,6 +467,7 @@ public class LoginFragment extends SupportFragment {
                                         editor.putInt("STRING_KEY2", work);
                                         editor.putString("STRING_KEY3", name);
                                         editor.putString("STRING_KEY4", userid);
+                                        editor.putInt("STRING_KEY5",workShop);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
@@ -472,26 +480,26 @@ public class LoginFragment extends SupportFragment {
                                                 url,
                                                 "{\n" +
                                                         "\t\n" +
-                                                        "            \"userId\": \""+userid+"\",\n" +
-                                                        "            \"userName\": \""+name+"\",\n" +
-                                                        "            \"date\": \""+ee+"\",\n" +
+                                                        "            \"userId\": \"" + userid + "\",\n" +
+                                                        "            \"userName\": \"" + name + "\",\n" +
+                                                        "            \"date\": \"" + ee + "\",\n" +
                                                         "            \"log\": \"登录软件\",\n" +
                                                         "            \"logType\": 1\n" +
                                                         "}",
-                                                new Response.Listener<JSONObject>(){
+                                                new Response.Listener<JSONObject>() {
                                                     @Override
                                                     public void onResponse(JSONObject response) {
 
                                                     }
                                                 },
-                                                new Response.ErrorListener(){
+                                                new Response.ErrorListener() {
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
 
                                                     }
                                                 }
                                         );
-                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
+                                        MyApplication.addRequest(jsonObjectRequest, "MainActivity");
                                     }
                                 }, 2000);    //延时2s执行
                             }
@@ -533,8 +541,9 @@ public class LoginFragment extends SupportFragment {
                                 loginUserid();
                             } else {
                                 Toast.makeText(LoginFragment.this.getActivity(), "登录成功", Toast.LENGTH_LONG).show();
-                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(),new TypeToken<List<User>>(){}.getType());
-                                final int id  = subjectList.get(0).getId();
+                                final List<User> subjectList = gson.fromJson(response.getJSONArray("UserList").toString(), new TypeToken<List<User>>() {
+                                }.getType());
+                                final int id = subjectList.get(0).getId();
                                 final int work = subjectList.get(0).getUserWork();
                                 final String name = subjectList.get(0).getUserName();
                                 final String userid = subjectList.get(0).getUserId();
@@ -564,26 +573,26 @@ public class LoginFragment extends SupportFragment {
                                                 url,
                                                 "{\n" +
                                                         "\t\n" +
-                                                        "            \"userId\": \""+userid+"\",\n" +
-                                                        "            \"userName\": \""+name+"\",\n" +
-                                                        "            \"date\": \""+ee+"\",\n" +
+                                                        "            \"userId\": \"" + userid + "\",\n" +
+                                                        "            \"userName\": \"" + name + "\",\n" +
+                                                        "            \"date\": \"" + ee + "\",\n" +
                                                         "            \"log\": \"登录软件\",\n" +
                                                         "            \"logType\": 1\n" +
                                                         "}",
-                                                new Response.Listener<JSONObject>(){
+                                                new Response.Listener<JSONObject>() {
                                                     @Override
                                                     public void onResponse(JSONObject response) {
 
                                                     }
                                                 },
-                                                new Response.ErrorListener(){
+                                                new Response.ErrorListener() {
                                                     @Override
                                                     public void onErrorResponse(VolleyError error) {
 
                                                     }
                                                 }
                                         );
-                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
+                                        MyApplication.addRequest(jsonObjectRequest, "MainActivity");
                                     }
                                 }, 2000);    //延时2s执行
 
@@ -603,7 +612,6 @@ public class LoginFragment extends SupportFragment {
         );
         MyApplication.addRequest(jsonObjectRequest, "MainActivity");
     }
-
 
 
 }

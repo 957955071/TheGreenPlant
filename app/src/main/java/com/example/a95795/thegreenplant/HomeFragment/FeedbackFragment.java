@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +16,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.a95795.thegreenplant.R;
+import com.example.a95795.thegreenplant.adapter.FeedbackAdapter;
+import com.example.a95795.thegreenplant.custom.Feedback;
 import com.example.a95795.thegreenplant.custom.MyApplication;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.unstoppable.submitbuttonview.SubmitButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -47,11 +55,13 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
     private ImageView iv;
     private LinearLayout ll;
     private TextView remaining, tv;
+    private RelativeLayout relativeLayout;
     private EditText et;
     private Button submit;
     private String feed;
     private boolean isback;
-    SubmitButton sBtnLoading;
+    private ListView listView;
+    SubmitButton sBtnLoading,sBtnLoading2,sBtnLoading3;
     private int MAX=100;
     public static FeedbackFragment newInstance() {
         return new FeedbackFragment();
@@ -60,10 +70,73 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         et=view.findViewById(R.id.useropinion_et);
-        remaining=view.findViewById(R.id.useropinion_remaining);
+        relativeLayout=view.findViewById(R.id.feedbackRelativeLayout);
         sBtnLoading=view.findViewById(R.id.submitbutton);
+        sBtnLoading2 = view.findViewById(R.id.button_feed_true);
+        sBtnLoading3 = view.findViewById(R.id.button_feed_false);
+        listView = view.findViewById(R.id.feedlistview);
+        relativeLayout = view.findViewById(R.id.feedbackRelativeLayout);
+        sBtnLoading3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sBtnLoading3.doResult(true);
+                sBtnLoading.setVisibility(View.VISIBLE);
+                relativeLayout.setVisibility(View.VISIBLE);
+                listView.setVisibility(View.GONE);
+                sBtnLoading3.setVisibility(View.GONE);
+                sBtnLoading2.setVisibility(View.VISIBLE);
+            }
+        });
+        sBtnLoading2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        //submit=view.findViewById(R.id.useropinion_submit);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        sBtnLoading2.doResult(true);
+                        sBtnLoading.setVisibility(View.GONE);
+                        relativeLayout.setVisibility(View.GONE);
+                        sBtnLoading3.setVisibility(View.VISIBLE);
+                        sBtnLoading2.setVisibility(View.GONE);
+                        String url = getString(R.string.ip) + "user/FeedbackAll";
+                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                Request.Method.POST,
+                                url,
+                                "",
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            Gson gson = new Gson();
+                                            List<Feedback> subjectList = gson.fromJson(response.getJSONArray("Feedback").toString(),new TypeToken<List<Feedback>>(){}.getType());
+                                            FeedbackAdapter feedbackAdapter = new FeedbackAdapter(FeedbackFragment.this.getActivity(), R.layout.feedback,subjectList);
+                                            listView = (ListView) getView().findViewById(R.id.listfeed);
+                                            listView.setAdapter(feedbackAdapter);
+                                            listView.setVisibility(View.VISIBLE);
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("volley", error.toString());
+                                    }
+                                }
+                        );
+                        MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+
+
+
+                    }
+                }, 2000);
+
+
+            }
+        });
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -146,15 +219,7 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
             }
         });
         sBtnLoading.setOnResultEndListener(this);
-
-
-//        submit.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//            }
-//        });
-
+        sBtnLoading2.setOnResultEndListener(this);
 
     }
 
@@ -170,6 +235,8 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
     @Override
     public void onResultEnd() {
         sBtnLoading.reset();
+        sBtnLoading2.reset();
+        sBtnLoading3.reset();
 
     }
 }

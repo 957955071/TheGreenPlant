@@ -9,6 +9,7 @@
 
 
     <RelativeLayout
+        android:id="@+id/feedbackRelativeLayout"
         android:layout_width="match_parent"
         android:layout_height="250dp"
         android:layout_margin="22dp"
@@ -49,6 +50,26 @@
         android:layout_height="50dp"
         app:buttonText="提交反馈"/>
 
+    <com.unstoppable.submitbuttonview.SubmitButton
+        android:id="@+id/button_feed_true"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:buttonText="查看反馈信息" />
+    <com.unstoppable.submitbuttonview.SubmitButton
+        android:id="@+id/button_feed_false"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
+        android:visibility="gone"
+        app:buttonText="退回上个页面" />
+
+    <ListView
+        android:id="@+id/listfeed"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="30dp"
+        android:visibility="gone" />
 
 
 </LinearLayout>

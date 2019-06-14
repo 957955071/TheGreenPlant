@@ -4,6 +4,7 @@ package com.example.a95795.thegreenplant.tools;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoDay;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoMon;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoWeek;
+import com.example.a95795.thegreenplant.bean.SetValue;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -61,4 +62,8 @@ public interface OpenApiService {
 
     @GET("user/queryEnvironmentInfoMonByType/4")
     Call<EnvironmentInfoMon> queryEnvironmentInfoMonByType4();
+
+    //获取监测的阈值
+    @GET("user/getValue")
+    Call<SetValue> getValue();
 }

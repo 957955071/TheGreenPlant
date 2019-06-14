@@ -1,6 +1,7 @@
 package com.example.a95795.thegreenplant.table;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -30,6 +31,7 @@ import com.daivd.chart.provider.component.mark.BubbleMarkView;
 import com.daivd.chart.provider.component.point.Point;
 import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoMon;
+import com.example.a95795.thegreenplant.bean.EnvironmentInfoWeek;
 import com.example.a95795.thegreenplant.tools.OpenApiManager;
 import com.example.a95795.thegreenplant.tools.OpenApiService;
 
@@ -63,6 +65,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class MonTableFragment extends Fragment implements View.OnClickListener{
     private Button btn;
@@ -80,6 +84,8 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
     private String name,time;
     private List<String> list = new ArrayList<>();
     private OpenApiService openApiService = null;
+    private int work, workShop;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -103,12 +109,29 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
                 changedStyle();
             }
         });
+
+        //可以通过缓存数据  来使得全局软件获得数据
+        Context ctx = MonTableFragment.this.getActivity();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
+        workShop = sp.getInt("STRING_KEY5", 0);//获取车间
+        work = sp.getInt("STRING_KEY2", 0);//获取用户管理权限
     }
 
     public void getEnvironmentInfoList() {
-
-        Call<EnvironmentInfoMon> einfo= openApiService.queryEnvironmentInfoMon();
-
+        Call<EnvironmentInfoMon> einfo=null;
+        if(work==0){
+            if (workShop==1){
+                einfo= openApiService.queryEnvironmentInfoMonByType1();
+            }else if(workShop==2){
+                einfo= openApiService.queryEnvironmentInfoMonByType2();
+            }else if(workShop==3){
+                einfo= openApiService.queryEnvironmentInfoMonByType3();
+            }else if(workShop==4){
+                einfo= openApiService.queryEnvironmentInfoMonByType4();
+            }
+        }else {
+            einfo = openApiService.queryEnvironmentInfoMon();
+        }
         //step4:通过异步获取数据
         einfo.enqueue(new Callback<EnvironmentInfoMon>() {
             @Override
@@ -130,7 +153,7 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
 //                                       boolean isPm, String dayTime, boolean isEvent
                     EnvironmentInfoMon.EnvironmentInfoListBean data =
                             new EnvironmentInfoMon.EnvironmentInfoListBean(name,tmp,hum,pm,isTmp,isHum,isPm,
-                            time,isEvent);
+                                    time,isEvent);
                     testData.add(data);//添加数据进表格
                 }
                 initTable();
@@ -143,7 +166,7 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
         });
     }
 
-//配置表格
+    //配置表格
     public void initTable(){
 
         nameColumn = new Column<>("车间", "emName");
@@ -387,7 +410,7 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
                             fixedX2Axis(item);
                             break;
                         case FIXED_Y_AXIS:
-                           fixedYAxis(item);
+                            fixedYAxis(item);
                             break;
                         case FIXED_COUNT_ROW:
                             fixedCountRow(item);
@@ -435,7 +458,7 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
             @Override
             public void onItemClick(String s, int position) {
                 if (position == 0) {
-                   table.getConfig().setShowXSequence(true).setShowYSequence(true);
+                    table.getConfig().setShowXSequence(true).setShowYSequence(true);
                 } else if (position == 1) {
                     table.getConfig().setShowXSequence(false).setShowYSequence(false);
                 }
@@ -457,7 +480,7 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
 //                    table.getConfig().setFixedXSequence(false);
                     nameColumn.setFixed(false);
                 }
-               table.invalidate();
+                table.invalidate();
             }
         });
     }
@@ -598,7 +621,7 @@ public class MonTableFragment extends Fragment implements View.OnClickListener{
         dialog.show();
     }
 
-//   获取现在的时间
+    //   获取现在的时间
     public static String getStringDateShort() {
         Date currentTime = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");

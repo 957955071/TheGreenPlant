@@ -42,7 +42,93 @@
                 android:layout_margin="3dp"
                 android:ems="3"
                 android:gravity="center"
-                android:text="0"
+                android:hint="min"
+                android:background="@color/white"
+                android:inputType="number" />
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/black"/>
+
+            <EditText
+                android:id="@+id/ed_max_pm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@color/white"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="max"
+                android:inputType="number"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="最大允许偏差值："/>
+
+            <EditText
+                android:id="@+id/ed_diff_pm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="差值"
+                android:background="@color/white"
+                android:inputType="number" />
+        </LinearLayout>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="#A3A3A3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="温度指标："
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="top"
+            android:text="(单位：℃)"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="标准指标："/>
+
+            <EditText
+                android:id="@+id/ed_min_tmp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:ems="3"
+                android:gravity="center"
                 android:hint="min"
                 android:background="@color/white"
                 android:inputType="number" />
@@ -53,13 +139,12 @@
                 android:layout_gravity="center_vertical"
                 android:background="@color/black"/>
             <EditText
-                android:id="@+id/ed_max_pm"
+                android:id="@+id/ed_max_tmp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:ems="3"
                 android:gravity="center"
-                android:text="50"
                 android:hint="max"
                 android:background="@color/white"
                 android:inputType="number" />
@@ -76,105 +161,16 @@
                 android:text="最大允许偏差值："/>
 
             <EditText
-                android:id="@+id/et_diff_pm"
+                android:id="@+id/ed_diff_tmp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
                 android:ems="3"
-                android:text="50"
                 android:gravity="center"
-                android:hint="差值"
+                android:hint="min"
                 android:background="@color/white"
                 android:inputType="number" />
         </LinearLayout>
-    </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:background="#A3A3A3"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="温度指标："
-                android:gravity="center_vertical"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="(单位：℃)"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="15dp"
-                    android:text="标准指标："/>
-
-                <EditText
-                    android:id="@+id/ed_min_tmp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:ems="3"
-                    android:text="18"
-                    android:gravity="center"
-                    android:hint="min"
-                    android:background="@color/white"
-                    android:inputType="number" />
-                <View
-                    android:layout_width="15dp"
-                    android:layout_height="1dp"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/black"/>
-                <EditText
-                    android:id="@+id/ed_max_tmp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:ems="3"
-                    android:text="25"
-                    android:gravity="center"
-                    android:hint="max"
-                    android:background="@color/white"
-                    android:inputType="number" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="15dp"
-                    android:text="最大允许偏差值："/>
-
-                <EditText
-                    android:id="@+id/et_diff_tmp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:ems="3"
-                    android:text="5"
-                    android:gravity="center"
-                    android:hint="min"
-                    android:background="@color/white"
-                    android:inputType="number" />
-            </LinearLayout>
     </LinearLayout>
 
     <View
@@ -184,87 +180,84 @@
         android:layout_marginLeft="10dp"
         android:background="#A3A3A3"/>
 
-        <LinearLayout
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="湿度指标："
+            android:gravity="center_vertical"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="vertical">
+            android:gravity="top"
+            android:text="(单位：RH)"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
             <TextView
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="湿度指标："
-                android:gravity="center_vertical"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
-            <TextView
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="标准指标："/>
+
+            <EditText
+                android:id="@+id/ed_min_hum"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="top"
-                android:text="(单位：RH)"/>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="15dp"
-                    android:text="标准指标："/>
-
-                <EditText
-                    android:id="@+id/ed_min_hum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:ems="3"
-                    android:gravity="center"
-                    android:hint="min"
-                    android:text="30"
-                    android:background="@color/white"
-                    android:inputType="number" />
-                <View
-                    android:layout_width="15dp"
-                    android:layout_height="1dp"
-                    android:layout_margin="5dp"
-                    android:layout_gravity="center_vertical"
-                    android:background="@color/black"/>
-                <EditText
-                    android:id="@+id/ed_max_hum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:ems="3"
-                    android:gravity="center"
-                    android:hint="min"
-                    android:text="60"
-                    android:background="@color/white"
-                    android:inputType="number" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:textSize="15dp"
-                    android:text="最大允许偏差："/>
-
-                <EditText
-                    android:id="@+id/et_diff_hum"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="3dp"
-                    android:ems="3"
-                    android:text="20"
-                    android:gravity="center"
-                    android:hint="最小值"
-                    android:background="@color/white"
-                    android:inputType="number" />
-            </LinearLayout>
+                android:layout_margin="3dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="min"
+                android:background="@color/white"
+                android:inputType="number" />
+            <View
+                android:layout_width="15dp"
+                android:layout_height="1dp"
+                android:layout_margin="5dp"
+                android:layout_gravity="center_vertical"
+                android:background="@color/black"/>
+            <EditText
+                android:id="@+id/ed_max_hum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="min"
+                android:background="@color/white"
+                android:inputType="number" />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="15dp"
+                android:text="最大允许偏差："/>
+
+            <EditText
+                android:id="@+id/ed_diff_hum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:ems="3"
+                android:gravity="center"
+                android:hint="最小值"
+                android:background="@color/white"
+                android:inputType="number" />
+        </LinearLayout>
+    </LinearLayout>
 
     <Button
         android:id="@+id/btn_value_bc"

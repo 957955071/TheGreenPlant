@@ -83,7 +83,7 @@ public class Information extends SupportFragment implements PopupInflaterListene
         super.onViewCreated(view, savedInstanceState);
         set();
         setData();
-       initView();
+        initView();
         pop();
         Context ctx = Information.this.getActivity();
         SharedPreferences sp = ctx.getSharedPreferences("SP", Context.MODE_PRIVATE);
@@ -155,37 +155,37 @@ public class Information extends SupportFragment implements PopupInflaterListene
         });
 */
 
-      mTelephone.setOnClickListener(new View.OnClickListener() {
-          @Override
-          public void onClick(View v) {
-              new PanterDialog(getContext())
-                      .setHeaderBackground(R.drawable.pattern_bg_orange)
-                      .setDialogType(DialogType.INPUT)
-                      .isCancelable(true)
-                      .input("请输入新的手机号",
-                              "请不要输入空的手机号", new
-                                      OnTextInputConfirmListener() {
-                                          @Override
-                                          public void onTextInputConfirmed(String text) {
-                                              Pattern pattern = Pattern.compile("[0-9]*");
-                                              String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$";
-                                              Matcher isNum = pattern.matcher(text);
-                                              if (!isNum.matches()) {
-                                                  Toast.makeText(getActivity(),"您输入的并非纯数字",Toast.LENGTH_LONG).show();
-                                              }else if(isNum.matches()&&text.length()!=11){
-                                                  Toast.makeText(getActivity(),"您输入的手机号长度不符合",Toast.LENGTH_LONG).show();
-                                              }else if (isNum.matches()&&text.length()==11&& !Pattern.matches(regex, text)){
-                                                  Toast.makeText(getActivity(),"您输入的手机号不符合格式",Toast.LENGTH_LONG).show();
-                                              }else{
-                                                  mTelephone.setRightDesc(text.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
+        mTelephone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new PanterDialog(getContext())
+                        .setHeaderBackground(R.drawable.pattern_bg_orange)
+                        .setDialogType(DialogType.INPUT)
+                        .isCancelable(true)
+                        .input("请输入新的手机号",
+                                "请不要输入空的手机号", new
+                                        OnTextInputConfirmListener() {
+                                            @Override
+                                            public void onTextInputConfirmed(String text) {
+                                                Pattern pattern = Pattern.compile("[0-9]*");
+                                                String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$";
+                                                Matcher isNum = pattern.matcher(text);
+                                                if (!isNum.matches()) {
+                                                    Toast.makeText(getActivity(),"您输入的并非纯数字",Toast.LENGTH_LONG).show();
+                                                }else if(isNum.matches()&&text.length()!=11){
+                                                    Toast.makeText(getActivity(),"您输入的手机号长度不符合",Toast.LENGTH_LONG).show();
+                                                }else if (isNum.matches()&&text.length()==11&& !Pattern.matches(regex, text)){
+                                                    Toast.makeText(getActivity(),"您输入的手机号不符合格式",Toast.LENGTH_LONG).show();
+                                                }else{
+                                                    mTelephone.setRightDesc(text.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
 
 
-                                              }
+                                                }
 
-                                          }
-                                      }).show();
-          }
-      });
+                                            }
+                                        }).show();
+            }
+        });
 
 
     }
@@ -243,7 +243,6 @@ public class Information extends SupportFragment implements PopupInflaterListene
                             Date date=users.get(0).getUserFirstjob();
                             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                             time=sdf.format(date);
-
 
 
 //                           HocellAdapter myAdapter=new HocellAdapter(producttype,R.layout.hocell);

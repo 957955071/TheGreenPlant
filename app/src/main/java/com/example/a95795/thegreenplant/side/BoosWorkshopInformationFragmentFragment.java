@@ -249,16 +249,32 @@ public class BoosWorkshopInformationFragmentFragment extends SupportFragment {
                                                 });
                                         customizeDialog.show();
                                     }else if( interpretation ==3){
-                                        Toast.makeText(getContext(),"123",Toast.LENGTH_LONG).show();
-                                    }
+                                        String url = getString(R.string.ip) + "user/deleteuser?id="+subjectList.get(position).getId();
+                                        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                                                Request.Method.POST,
+                                                url,
+                                                "",
+                                                new Response.Listener<JSONObject>(){
+                                                    @Override
+                                                    public void onResponse(JSONObject response) {
 
+                                                    }
+                                                },
+                                                new Response.ErrorListener(){
+                                                    @Override
+                                                    public void onErrorResponse(VolleyError error) {
+
+                                                    }
+                                                }
+                                        );
+                                        MyApplication.addRequest(jsonObjectRequest,"MainActivity");
+                                    }
                                 }
                             });
                             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
                             recyclerView.setLayoutManager(linearLayoutManager);
                             BoosWorkshopAdapter boosWorkshopAdapter = new BoosWorkshopAdapter(subjectList);
                             recyclerView.setAdapter(boosWorkshopAdapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
