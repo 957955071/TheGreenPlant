@@ -71,6 +71,7 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
         super.onViewCreated(view, savedInstanceState);
         et=view.findViewById(R.id.useropinion_et);
         relativeLayout=view.findViewById(R.id.feedbackRelativeLayout);
+        remaining = view.findViewById(R.id.useropinion_remaining);
         sBtnLoading=view.findViewById(R.id.submitbutton);
         sBtnLoading2 = view.findViewById(R.id.button_feed_true);
         sBtnLoading3 = view.findViewById(R.id.button_feed_false);
@@ -117,7 +118,6 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                         }
-
                                     }
                                 },
                                 new Response.ErrorListener() {
@@ -128,9 +128,6 @@ public class FeedbackFragment extends SwipeBackFragment implements ISupportFragm
                                 }
                         );
                         MyApplication.addRequest(jsonObjectRequest, "MainActivity");
-
-
-
                     }
                 }, 2000);
 

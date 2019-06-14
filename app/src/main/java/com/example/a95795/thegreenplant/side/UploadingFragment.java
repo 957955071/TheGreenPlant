@@ -306,5 +306,4 @@ public class UploadingFragment extends SupportFragment {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
 
-
 }

@@ -6,6 +6,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.location.LocationManager;
+import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -20,6 +23,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
@@ -47,6 +51,7 @@ public class HomeActivity extends SupportActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     SecretTextView secretTextView;
     ImageView imageView,imageView2;
+    private int GPS_REQUEST_CODE = 1;
 
     public static final int FIRST = 0;
     public static final int SECOND = 1;
@@ -73,7 +78,7 @@ public class HomeActivity extends SupportActivity
         Context ctx = getContext();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         String name = sp.getString("STRING_KEY3","");
-
+        openGPSSEtting();
         imageView = findViewById(R.id.imageView3);
         imageView2 = findViewById(R.id.pz);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -375,6 +380,50 @@ public class HomeActivity extends SupportActivity
         }
 
     };
+    private boolean checkGpsIsOpen() {
+        boolean isOpen;
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        isOpen = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return isOpen;
+    }
+
+    private void openGPSSEtting() {
+        if (checkGpsIsOpen()){
+            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
+        }else {
+            new AlertDialog.Builder(this).setTitle("open GPS")
+                    .setMessage("go to open")
+                    //  取消选项
+                    .setNegativeButton("cancel",new DialogInterface.OnClickListener(){
+
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Toast.makeText(HomeActivity.this, "close", Toast.LENGTH_SHORT).show();
+                            // 关闭dialog
+                            dialogInterface.dismiss();
+                        }
+                    })
+                    //  确认选项
+                    .setPositiveButton("setting", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //跳转到手机原生设置页面
+                            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivityForResult(intent,GPS_REQUEST_CODE);
+                        }
+                    })
+                    .setCancelable(false)
+                    .show();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==GPS_REQUEST_CODE){
+            openGPSSEtting();
+        }
+    }
 
 
 
