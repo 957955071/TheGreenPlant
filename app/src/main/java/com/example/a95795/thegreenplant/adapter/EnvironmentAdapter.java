@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -92,9 +93,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                 //隐藏警告按钮
                 imageView1.setVisibility(View.INVISIBLE);
                 jellyToggleButton.setChecked(false, false);
-                if(workid==0){
-                    jellyToggleButton.setEnabled(false);
-                }
+
             }
         } else if (list.get(position).getMachineSwitch() == 1) {
             //同上
@@ -102,9 +101,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
                 //隐藏警告按钮
                 imageView1.setVisibility(View.INVISIBLE);
                 jellyToggleButton.setChecked(true, false);
-                if(workid==0){
-                    jellyToggleButton.setEnabled(false);
-                }
+
             }
 
         }
@@ -144,6 +141,7 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
     class MyListener {
         int position, MachineId;
         String IP;
+        boolean status = false;
 
         Context ctx = getContext();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
@@ -156,75 +154,97 @@ public class EnvironmentAdapter extends ArrayAdapter<Machine> {
         }
 //设置按钮在左边需要发送的事件
         public void left() {
-            String url = IP + "user/MachineUpdata";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    url,
-                    "{\n" +
-                            "\t\"machineSwitch\":0,\n" +
-                            "\t\"machineId\":" + MachineId + "\n" +
-                            "\n" +
-                            "}",
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            addlogLeft();
-                            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                                    .setContentText("设备已关闭")
-                                    .setConfirmText("确定")
-                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sDialog) {
-                                            sDialog.dismissWithAnimation();
-                                        }
-                                    })
-                                    .show();
+            if (workid==0){
+
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("警告")
+                            .setContentText("您好，您没有权限使用此功能！请下拉刷新查看设备最新情况！")
+                            .setConfirmText("确定")
+                            .show();
+
+
+            }else {
+                String url = IP + "user/MachineUpdata";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        "{\n" +
+                                "\t\"machineSwitch\":0,\n" +
+                                "\t\"machineId\":" + MachineId + "\n" +
+                                "\n" +
+                                "}",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                addlogLeft();
+                                new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                        .setContentText("设备已关闭")
+                                        .setConfirmText("确定")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismissWithAnimation();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("volley", error.toString());
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("volley", error.toString());
-                        }
-                    }
-            );
-            MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+                );
+                MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+            }
+
         }
 //控件在右边的事件
         public void right() {
-            String url = IP + "user/MachineUpdata";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    url,
-                    "{\n" +
-                            "\t\"machineSwitch\":1,\n" +
-                            "\t\"machineId\":" + MachineId + "\n" +
-                            "\n" +
-                            "}",
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            addlogRight();
-                            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
-                                    .setContentText("设备已启动")
-                                    .setConfirmText("确定")
-                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sDialog) {
-                                            sDialog.dismissWithAnimation();
-                                        }
-                                    })
-                                    .show();
+            if (workid==0){
+
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("警告")
+                            .setContentText("您好，您没有权限使用此功能！请下拉刷新查看设备最新情况！")
+                            .setConfirmText("确定")
+                            .show();
+
+            }else {
+                String url = IP + "user/MachineUpdata";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        "{\n" +
+                                "\t\"machineSwitch\":1,\n" +
+                                "\t\"machineId\":" + MachineId + "\n" +
+                                "\n" +
+                                "}",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                addlogRight();
+                                new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                                        .setContentText("设备已启动")
+                                        .setConfirmText("确定")
+                                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sDialog) {
+                                                sDialog.dismissWithAnimation();
+                                            }
+                                        })
+                                        .show();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("volley", error.toString());
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("volley", error.toString());
-                        }
-                    }
-            );
-            MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+                );
+                MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+            }
         }
         public void addlogRight(){
             SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

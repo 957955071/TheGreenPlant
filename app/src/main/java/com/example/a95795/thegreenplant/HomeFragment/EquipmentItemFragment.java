@@ -70,7 +70,7 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
 
     private ExpandableListView expandableListView;
 
-    private int workshop = 1;
+    private int workshop ;
     private int Id;
     private ListView listView_big,listView_small;
     private LinearLayout linearLayout;
@@ -91,6 +91,7 @@ public class EquipmentItemFragment extends SupportFragment implements PopupInfla
         Context ctx = EquipmentItemFragment.this.getActivity();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         Workshop = sp.getInt("STRING_KEY2",0);
+        workshop = sp.getInt("STRING_KEY5",0);
 
         EventBus.getDefault().register(this);
         list();

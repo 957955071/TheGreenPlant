@@ -11,6 +11,7 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,9 +22,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.a95795.thegreenplant.HomeFragment.EnvironmentFragment;
+import com.example.a95795.thegreenplant.bean.SetValue;
 import com.example.a95795.thegreenplant.real.RealBean;
 import com.example.a95795.thegreenplant.real.RealItemAdaper;
+import com.example.a95795.thegreenplant.side.SetMaxVauleFragment;
 import com.example.a95795.thegreenplant.tools.CircleImageView;
+import com.example.a95795.thegreenplant.tools.OpenApiManager;
+import com.example.a95795.thegreenplant.tools.OpenApiService;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -33,7 +38,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class RealActivity extends SwipeBackActivity {
     private String city = "chengde";
@@ -50,6 +58,12 @@ public class RealActivity extends SwipeBackActivity {
     private ImageView bgPm,bgTmp,bgHum,bgPm2,bgTmp2,bgHum2;
     private ImageView bgPm3,bgTmp3,bgHum3,bgPm4,bgTmp4,bgHum4;
     private ImageView back;
+    private int pm_min,pm_max,pm_diff;
+    private int tmp_min,tmp_max,tmp_diff;
+    private int hum_min,hum_max,hum_diff;
+    private OpenApiService openApiService = OpenApiManager.createOpenApiService();
+    private int pmin,pmax,pdif,tmin,tmax,tdif,hmin,hmax,hdif;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +102,8 @@ public class RealActivity extends SwipeBackActivity {
         tv_pm4 = (TextView) findViewById(R.id.tv_pm_value4);
         tv_tmp4 = (TextView) findViewById(R.id.tv_tmp_value4);
         tv_hum4 = (TextView) findViewById(R.id.tv_hum_value4);
+
+
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -282,33 +298,84 @@ public class RealActivity extends SwipeBackActivity {
         }).start();
     }
 
-    public void isEvent(int p,int t,int h,ImageView img1,ImageView img2,ImageView img3){
-        if(p>=0&&p<=50){
-            img1.setImageResource(R.drawable.green);
-        }else if(p>50&&p<=100){
-            img1.setImageResource(R.drawable.yellow);
-        }else{
-            img1.setImageResource(R.drawable.red);
-        }
+//    public void isEvent(int p,int t,int h,ImageView img1,ImageView img2,ImageView img3){
+//        if(p>=0&&p<=50){
+//            img1.setImageResource(R.drawable.green);
+//        }else if(p>50&&p<=100){
+//            img1.setImageResource(R.drawable.yellow);
+//        }else{
+//            img1.setImageResource(R.drawable.red);
+//        }
+//
+//        if(t>18&&t<=25){
+//            img2.setImageResource(R.drawable.green);
+//        }else if((t>13&&t<=18)||(t>25&&t<=30)){
+//            img2.setImageResource(R.drawable.yellow);
+//        }else{
+//            img2.setImageResource(R.drawable.red);
+//        }
+//
+//        if(h>30&&h<=60){
+//            img3.setImageResource(R.drawable.green);
+//        }else if((h>10&&h<=30)||(h>60&&h<=80)){
+//            img3.setImageResource(R.drawable.yellow);
+//        }else{
+//            img3.setImageResource(R.drawable.red);
+//        }
+//    }
 
-        if(t>18&&t<=25){
-            img2.setImageResource(R.drawable.green);
-        }else if((t>13&&t<=18)||(t>25&&t<=30)){
-            img2.setImageResource(R.drawable.yellow);
-        }else{
-            img2.setImageResource(R.drawable.red);
-        }
 
-        if(h>30&&h<=60){
-            img3.setImageResource(R.drawable.green);
-        }else if((h>10&&h<=30)||(h>60&&h<=80)){
-            img3.setImageResource(R.drawable.yellow);
-        }else{
-            img3.setImageResource(R.drawable.red);
-        }
+    public void isEvent(final int p, final int t, final int h, final ImageView img1, final ImageView img2, final ImageView img3){
+        Call<SetValue> call=openApiService.getValue();
+
+        call.enqueue(new Callback<SetValue>() {
+            @Override
+            public void onResponse(Call<SetValue> call, retrofit2.Response<SetValue> response) {
+                Log.e(TAG, "onResponse: 请求成功！！！" );
+                SetValue sv=response.body();
+                for(int j=0;j<sv.getGetValue().size();j++){
+                    pm_min = sv.getGetValue().get(j).getPmMin();
+                    pm_max = sv.getGetValue().get(j).getPmMax();
+                    pm_diff = sv.getGetValue().get(j).getPmDiff();
+                    tmp_min = sv.getGetValue().get(j).getTmpMim();
+                    tmp_max = sv.getGetValue().get(j).getTmpMax();
+                    tmp_diff = sv.getGetValue().get(j).getTmpDiff();
+                    hum_min = sv.getGetValue().get(j).getHumMin();
+                    hum_max = sv.getGetValue().get(j).getHumMax();
+                    hum_diff = sv.getGetValue().get(j).getHumDiff();
+                }
+                if(p>=pm_min&&p<=pm_max){
+                    img1.setImageResource(R.drawable.green);
+                }else if((p>pm_min-pm_diff&&t<=pm_min)||(p>pm_max&&p<=pm_max+pm_diff)){
+                    img1.setImageResource(R.drawable.yellow);
+                }else{
+                    img1.setImageResource(R.drawable.red);
+                }
+
+                if(t>tmp_min&&t<=tmp_max){
+                    img2.setImageResource(R.drawable.green);
+                }else if((t>tmp_min-tmp_diff&&t<=tmp_min)||(t>tmp_max&&t<=tmp_max+tmp_diff)){
+                    img2.setImageResource(R.drawable.yellow);
+                }else{
+                    img2.setImageResource(R.drawable.red);
+                }
+
+                if(h>hum_min&&h<=hum_max){
+                    img3.setImageResource(R.drawable.green);
+                }else if((h>hum_min-hum_diff&&h<=hum_min)||(h>hum_max&&h<=hum_max+hum_diff)){
+                    img3.setImageResource(R.drawable.yellow);
+                }else{
+                    img3.setImageResource(R.drawable.red);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SetValue> call, Throwable t) {
+                Log.e(TAG, "onFailure: 请求失败！！！！~~~~~" );
+                Log.e(TAG, "onFailure: "+t.getMessage() );
+            }
+        });
     }
-
-
 
 
 }

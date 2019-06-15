@@ -118,5 +118,17 @@ public class SetValue {
         public void setHumDiff(int humDiff) {
             this.humDiff = humDiff;
         }
+
+        public GetValueBean(int pmMin, int pmMax, int pmDiff, int tmpMim, int tmpMax, int tmpDiff, int humMin, int humMax, int humDiff) {
+            this.pmMin = pmMin;
+            this.pmMax = pmMax;
+            this.pmDiff = pmDiff;
+            this.tmpMim = tmpMim;
+            this.tmpMax = tmpMax;
+            this.tmpDiff = tmpDiff;
+            this.humMin = humMin;
+            this.humMax = humMax;
+            this.humDiff = humDiff;
+        }
     }
 }

@@ -95,6 +95,8 @@ public class EquipmentFragment extends SupportFragment {
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         ID = sp.getInt("STRING_KEY", 0);//获取用户id
         int work = sp.getInt("STRING_KEY2", 0);//获取用户是否为管理
+        int  workshop = sp.getInt("STRING_KEY5",0);
+
 
 
         judge();
@@ -110,6 +112,7 @@ public class EquipmentFragment extends SupportFragment {
         List<String> spinnerData = new LinkedList<>(Arrays.asList("一号车间", "二号车间","三号车间","四号车间"));
         niceSpinner.attachDataSource(spinnerData);
         niceSpinner.setTextSize(13);
+        niceSpinner.setSelectedIndex((workshop-1));
         niceSpinner.setArrowDrawable(R.drawable.jiantou);
 
 //监听下拉列表

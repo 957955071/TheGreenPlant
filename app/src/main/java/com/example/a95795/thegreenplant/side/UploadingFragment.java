@@ -3,14 +3,18 @@ package com.example.a95795.thegreenplant.side;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -70,6 +74,8 @@ public class UploadingFragment extends SupportFragment {
     public String URL = "";
     private String mTempPhotoPath;
     private Uri imageUri;
+    private ImageView imv;
+    Uri imgUri;
     ImageView ivImage;
     MultiPartStack multiPartStack;
     private int REQUESTCODE = 100;//请求码
@@ -79,22 +85,42 @@ public class UploadingFragment extends SupportFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_uploading, container, false);
-        ivImage= view.findViewById(R.id.imageView5);
+        imv= view.findViewById(R.id.imageView5);
         initView(view);
         Button button = (Button) view.findViewById(R.id.btn_upload);
         Button button1 = (Button) view.findViewById(R.id.choose_img);
+        Button button2 = (Button) view.findViewById(R.id.choose_img2);
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 UploadFile();
             }
         });
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ActivityCompat.checkSelfPermission(getContext(),   //检查是否已获得写入权限
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    //尚未获得权限
+                    ActivityCompat.requestPermissions(getActivity(),  //向用户要求允许写入权限
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            200);
+                }
+                else {
+                    //已经获得权限
+                    savePhoto();  //拍照并存盘
+                }
+
+            }
+        });
         button1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);//获取行动内容
-                intent.setType(INTENT_TYPE);
-                startActivityForResult(intent,REQUESTCODE);
+                Intent it = new Intent(Intent.ACTION_GET_CONTENT);    //动作设为 "选取内容"
+                it.setType("image/*");            //设置要选取的媒体类型为：所有类型的图片
+                startActivityForResult(it, 101);
             }
         });
         return view;
@@ -179,32 +205,119 @@ public class UploadingFragment extends SupportFragment {
         }
     }
 
+
+
+    private void savePhoto () {
+        imgUri =  getContext().getContentResolver().insert(
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                new ContentValues());
+        Intent it = new Intent("android.media.action.IMAGE_CAPTURE");
+        it.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);    //将 uri 加到拍照 Intent 的额外数据中
+        startActivityForResult(it, 100);
+    }
+
+    public void onPick(View v) {
+        Intent it = new Intent(Intent.ACTION_GET_CONTENT);    //动作设为 "选取内容"
+        it.setType("image/*");            //设置要选取的媒体类型为：所有类型的图片
+        startActivityForResult(it, 101);  //启动意图, 并要求返回选取的图片
+    }
+
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 200){
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED){ //用户允许权限
+                savePhoto();  //拍照并存盘
+            }
+            else { //用户拒绝权限
+                Toast.makeText(getContext(), "程序需要写入权限才能运行", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode != RESULT_OK){
-            Log.e("TAG--->onresult","ActivityResult resultCode error");
+
+        if(resultCode == Activity.RESULT_OK) {   //要求的意图成功了
+            switch(requestCode) {
+                case 100: //拍照
+                    Intent it = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, imgUri);//设为系统共享媒体文件
+                    Toast.makeText(getContext(),imgUri.toString(),Toast.LENGTH_LONG).show();
+                    URL = getRealPathFromUri(getContext(),imgUri);
+                    getContext().sendBroadcast(it);
+                    break;
+                case 101: //选取照片
+                    imgUri = data.getData();  //获取选取照片的 Uri
+                    URL = getRealPathFromUri(getContext(),imgUri);
+                    Toast.makeText(getContext(),imgUri.toString(),Toast.LENGTH_LONG).show();
+                    break;
+            }
+            showImg();  //显示 imgUri 所指明的照片
+        }
+        else {
+            Toast.makeText(getContext(), requestCode==100? "没有拍到照片":
+                    "没有选取照片", Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    void showImg() {
+        int iw, ih, vw, vh;
+        boolean needRotate;  //用来保存是否需要旋转
+
+        BitmapFactory.Options option = new BitmapFactory.Options(); //新建选项对象
+        option.inJustDecodeBounds = true;      //设置选项：只读取图片文件信息而不加载图片文件
+
+        //读取图片文件信息并存入 Option 中
+        try {
+            BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imgUri), null, option);
+        }
+        catch (IOException e) {
+            Toast.makeText(getContext(), "读取照片信息时发生错误", Toast.LENGTH_LONG).show();
             return;
         }
 
-        //获得图片
-        Bitmap bitmap = null;//位图
-        ContentResolver resolver = getActivity().getContentResolver();//分析器
-        if(requestCode == REQUESTCODE){
-            Uri uri = data.getData();
-            URL  =   getRealPathFromUri(getContext(),uri);
+        iw = option.outWidth;   //从 option 中读出图片宽度
+        ih = option.outHeight;  //从 option 中读出图片高度
+        vw = imv.getWidth();    //获取 ImageView 的宽度
+        vh = imv.getHeight();   //获取 ImageView 的高度
 
-
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(resolver,uri);//获得图片
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        int scaleFactor;
+        if(iw<ih) {    //如果图片的宽度小于高度
+            needRotate = false;                 //不需要旋转
+            scaleFactor = Math.min(iw/vw, ih/vh);   // 计算缩小比率
         }
-         ivImage.setImageBitmap(bitmap);
+        else {
+            needRotate = true;                  //需要旋转
+            scaleFactor = Math.min(iw/vh, ih/vw);   // 将 ImageView 的宽、高互换来计算缩小比率
+        }
 
+        option.inJustDecodeBounds = false;  //关闭只加载图片文件信息的选项
+        option.inSampleSize = scaleFactor;  //设置缩小比例, 例如 2 则长宽都将缩小为原来的 1/2
+
+        //载入图片文件
+        Bitmap bmp = null;
+        try {
+            bmp = BitmapFactory.decodeStream(getContext().getContentResolver().openInputStream(imgUri), null, option);
+        } catch (IOException e) {
+            Toast.makeText(getContext(), "无法取得照片", Toast.LENGTH_LONG).show();
+        }
+
+        if(needRotate) { //如果需要旋转
+            Matrix matrix = new Matrix();  //新建 Matrix 对象
+            matrix.postRotate(90);         //设置旋转角度
+            bmp = Bitmap.createBitmap(bmp , //用原来的 Bitmap 创建一个新的 Bitmap
+                    0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+        }
+
+        imv.setImageBitmap(bmp); //显示图片
     }
+
+
+
+
+
+
+
 
     /**
      * 根据Uri获取图片的绝对路径
@@ -305,5 +418,6 @@ public class UploadingFragment extends SupportFragment {
     private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
+
 
 }

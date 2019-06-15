@@ -78,6 +78,7 @@ public class HomeActivity extends SupportActivity
         Context ctx = getContext();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         String name = sp.getString("STRING_KEY3","");
+
         openGPSSEtting();
         imageView = findViewById(R.id.imageView3);
         imageView2 = findViewById(R.id.pz);
@@ -207,20 +208,26 @@ public class HomeActivity extends SupportActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         Context ctx = getContext();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
-        int Workshop = sp.getInt("STRING_KEY2",0);
+        int work = sp.getInt("STRING_KEY2",0);
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        //进入首页
         if(id==R.id.homeitem){
             showHideFragment(mFragments[0], mFragments[postion]);
             postion = 0;
             secretTextView.hide();
             secretTextView.setText("首页");
             secretTextView.show();
-
+            //打卡
         } else if (id == R.id.nav_camera) {
-
+            new SweetAlertDialog(this, SweetAlertDialog.WARNING_TYPE)
+                    .setTitleText("警告")
+                    .setContentText("正在开发...")
+                    .setConfirmText("确定")
+                    .show();
+            //查看所有人并带滑动删除
         } else if (id == R.id.nav_gallery) {
-            if(Workshop==0){
+            if(work==0){
                 new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("警告")
                         .setContentText("抱歉，你没有权利使用此功能")
@@ -231,17 +238,25 @@ public class HomeActivity extends SupportActivity
                 test(4);
                 postion = 6;
             }
+            //阈值设置
         } else if (id == R.id.nav_slideshow) {//设置
-
-            showHideFragment(mFragments[3], mFragments[postion]);
-            test(6);
-            postion = 3;
+            if(work==0){
+                new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("警告")
+                        .setContentText("抱歉，你没有权利使用此功能")
+                        .setConfirmText("确定")
+                        .show();
+            }else {
+                showHideFragment(mFragments[3], mFragments[postion]);
+                test(6);
+                postion = 3;
+            }
 
         } else if (id == R.id.nav_manage) {//用户反馈
             showHideFragment(mFragments[4], mFragments[postion]);
             test(7);
             postion = 4;
-
+            //关于页面
         } else if (id == R.id.nav_share) {
             showHideFragment(mFragments[1], mFragments[postion]);
             postion = 1;
@@ -257,8 +272,9 @@ public class HomeActivity extends SupportActivity
                         }
                     })
                     .show();
+            //操作日志
         }else if (id == R.id.feed) {
-            if(Workshop==0){
+            if(work==0){
                 new SweetAlertDialog(HomeActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("警告")
                         .setContentText("抱歉，你没有权利使用此功能")

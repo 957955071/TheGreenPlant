@@ -2,14 +2,18 @@ package com.example.a95795.thegreenplant.HomeFragment;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,25 +89,33 @@ public class Information extends SupportFragment implements PopupInflaterListene
         setData();
         initView();
         pop();
-        Context ctx = Information.this.getActivity();
-        SharedPreferences sp = ctx.getSharedPreferences("SP", Context.MODE_PRIVATE);
-        ID = sp.getInt("STRING_KEY", 0);
+
         exit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PanterDialog(getContext())
-                        .setPositive("确定", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(Information.this.getActivity(), MainActivity.class);
-                                startActivity(intent);
-                                getActivity().finish();
-                            }
-                        })
-                        .setNegative("取消")
-                        .setMessage("是否退出登录本账号")
-                        .isCancelable(true)
-                        .show();
+                AlertDialog.Builder localBuilder = new AlertDialog.Builder(getContext());
+                localBuilder.setMessage("是否退出？");
+                localBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+                    {
+                        Intent intent = new Intent(Information.this.getActivity(), MainActivity.class);
+                               startActivity(intent);
+                           getActivity().finish();
+                    }
+                });
+                localBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+                    {
+
+                    }
+                });
+
+
+                localBuilder.setCancelable(true).create();
+
+                localBuilder.show();
             }
         });
 
@@ -158,32 +170,34 @@ public class Information extends SupportFragment implements PopupInflaterListene
         mTelephone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new PanterDialog(getContext())
-                        .setHeaderBackground(R.drawable.pattern_bg_orange)
-                        .setDialogType(DialogType.INPUT)
-                        .isCancelable(true)
-                        .input("请输入新的手机号",
-                                "请不要输入空的手机号", new
-                                        OnTextInputConfirmListener() {
-                                            @Override
-                                            public void onTextInputConfirmed(String text) {
-                                                Pattern pattern = Pattern.compile("[0-9]*");
-                                                String regex = "^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(18[0,5-9]))\\d{8}$";
-                                                Matcher isNum = pattern.matcher(text);
-                                                if (!isNum.matches()) {
-                                                    Toast.makeText(getActivity(),"您输入的并非纯数字",Toast.LENGTH_LONG).show();
-                                                }else if(isNum.matches()&&text.length()!=11){
-                                                    Toast.makeText(getActivity(),"您输入的手机号长度不符合",Toast.LENGTH_LONG).show();
-                                                }else if (isNum.matches()&&text.length()==11&& !Pattern.matches(regex, text)){
-                                                    Toast.makeText(getActivity(),"您输入的手机号不符合格式",Toast.LENGTH_LONG).show();
-                                                }else{
-                                                    mTelephone.setRightDesc(text.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
+                AlertDialog.Builder localBuilder = new AlertDialog.Builder(getContext());
+                final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.phone,null);
+                localBuilder.setTitle("请输入想要修改的手机号码").setIcon(R.mipmap.ic_launcher);
+                localBuilder.setView(dialogView);
+                localBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+                    {
+                        EditText edit_text = dialogView.findViewById(R.id.editText);
+                        String text = edit_text.getText().toString();
+                        if (text.equals("")){
+                            Toast.makeText(getContext(),"请输入手机号",Toast.LENGTH_LONG).show();
+                        }else if(text.length()!=11) {
+                            Toast.makeText(getContext(),"手机长度不合法",Toast.LENGTH_LONG).show();
+                        }else if(!validatePhoneNumber(text)){
+                            Toast.makeText(getContext(),"请输入正确的手机号",Toast.LENGTH_LONG).show();
+                        }else {
+                            mTelephone.setRightDesc(text.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
+                        }
 
+                    }
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
+                    {
 
-                                                }
-
-                                            }
-                                        }).show();
+                    }
+                }).create().show();
             }
         });
 
@@ -191,7 +205,11 @@ public class Information extends SupportFragment implements PopupInflaterListene
     }
 
     private void initView() {
-        String url = getString(R.string.ip)+"user/userall";
+        Context ctx = Information.this.getActivity();
+        SharedPreferences sp = ctx.getSharedPreferences("SP", Context.MODE_PRIVATE);
+        ID = sp.getInt("STRING_KEY", 0);
+        String url = getString(R.string.ip)+"user/userfindid";
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -207,6 +225,7 @@ public class Information extends SupportFragment implements PopupInflaterListene
                             List<User> users =  gson.fromJson(response.getString("UserList"), new TypeToken<List<User>>() {
                             }.getType());
                             mNickName.setRightDesc(users.get(0).getUserName());
+                            Log.d("11111111", "initView: "+users.get(0).getUserName());
                             mTelephone.setRightDesc(users.get(0).getUserCall().replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
                             if(users.get(0).getUserWork()==0){
                                 mJob.setRightDesc("生产员");
@@ -319,5 +338,10 @@ public class Information extends SupportFragment implements PopupInflaterListene
     @Override
     public void onPopupDismiss(@Nullable String popupTag) {
 
+    }
+    //正则判断手机号码正确与否
+    public static boolean validatePhoneNumber(String mobiles) {
+        String telRegex = "^((13[0-9])|(15[^4])|(18[0-9])|(17[0-8])|(147,145))\\d{8}$";
+        return !TextUtils.isEmpty(mobiles) && mobiles.matches(telRegex);
     }
 }

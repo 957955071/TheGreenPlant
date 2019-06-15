@@ -7,7 +7,11 @@ import com.example.a95795.thegreenplant.bean.EnvironmentInfoWeek;
 import com.example.a95795.thegreenplant.bean.SetValue;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 
 public interface OpenApiService {
     public static final  String BASE_URL="http://134.175.176.168:8080/";
@@ -66,4 +70,13 @@ public interface OpenApiService {
     //获取监测的阈值
     @GET("user/getValue")
     Call<SetValue> getValue();
+
+//    //保存设置
+//    @GET("user/save")
+//    Call<SetValue> save(SetValue.GetValueBean bean);
+
+    @POST("user/save")
+    Call<SetValue> save(@Body SetValue.GetValueBean bean);
+
+
 }

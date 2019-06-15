@@ -155,6 +155,21 @@ public class OperationLogFragment extends SupportFragment {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {  // 点击软件盘搜索按钮会弹出 吐司
+                return false;
+            }
+            // 搜索框文本改变事件
+            @Override
+            public boolean onQueryTextChange(String s) {
+                // 文本内容是空就让 recyclerView 填充全部数据 // 可以是其他容器 如listView
+                if (TextUtils.isEmpty(s)) {  // 文本工具 检测是否为空，检测空，是输入文本改变 并且为空时触发，刚点击时候虽然为空，但是文本内容没有改变
+                    list();
+                }
+                return false;
+            }
+        });
         //监听下拉列表
         niceSpinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

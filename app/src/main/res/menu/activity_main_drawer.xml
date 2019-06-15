@@ -11,7 +11,7 @@
         <item
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
-            android:title="打卡" />
+            android:title="摄像头监控" />
         <item
             android:id="@+id/feed"
             android:icon="@drawable/rz"
@@ -27,7 +27,7 @@
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="设置" />
+            android:title="阈值设置" />
 
     </group>
 

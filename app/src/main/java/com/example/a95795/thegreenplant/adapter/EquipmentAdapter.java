@@ -160,6 +160,7 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
     class MyListener {
         int group, child,MachineId;
         String IP;
+        boolean status = false;
         Context ctx = getContext();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         String name = sp.getString("STRING_KEY3","");
@@ -172,55 +173,75 @@ public class EquipmentAdapter extends BaseExpandableListAdapter {
         }
 //同listview方法
         public void left() {
-            String url = IP+"user/MachineUpdata";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    url,
-                    "{\n" +
-                            "\t\"machineSwitch\":0,\n" +
-                            "\t\"machineId\":"+MachineId+"\n" +
-                            "\n" +
-                            "}",
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            addlogLeft();
+            if (workid==0){
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("警告")
+                            .setContentText("您好，您没有权限使用此功能！请下拉刷新查看设备最新情况！")
+                            .setConfirmText("确定")
+                            .show();
+
+            }else {
+                String url = IP + "user/MachineUpdata";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        "{\n" +
+                                "\t\"machineSwitch\":0,\n" +
+                                "\t\"machineId\":" + MachineId + "\n" +
+                                "\n" +
+                                "}",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                addlogLeft();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("volley", error.toString());
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("volley", error.toString());
-                        }
-                    }
-            );
-            MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+                );
+                MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+            }
         }
 
         public void right() {
-            String url =  IP+"user/MachineUpdata";
-            JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    url,
-                    "{\n" +
-                            "\t\"machineSwitch\":1,\n" +
-                            "\t\"machineId\":"+MachineId+"\n" +
-                            "\n" +
-                            "}",
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            addlogRight();
+            if (workid==0){
+
+                    new SweetAlertDialog(getContext(), SweetAlertDialog.WARNING_TYPE)
+                            .setTitleText("警告")
+                            .setContentText("您好，您没有权限使用此功能！请下拉刷新查看设备最新情况！")
+                            .setConfirmText("确定")
+                            .show();
+
+
+            }else {
+                String url = IP + "user/MachineUpdata";
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        url,
+                        "{\n" +
+                                "\t\"machineSwitch\":1,\n" +
+                                "\t\"machineId\":" + MachineId + "\n" +
+                                "\n" +
+                                "}",
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                addlogRight();
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("volley", error.toString());
+                            }
                         }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.d("volley", error.toString());
-                        }
-                    }
-            );
-            MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+                );
+                MyApplication.addRequest(jsonObjectRequest, "MainActivity");
+            }
         }
         public void addlogRight(){
             //获取网络时间  精确到秒

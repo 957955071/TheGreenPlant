@@ -43,6 +43,7 @@ public class SetMaxVauleFragment extends SupportFragment {
     private EditText ed_min_pm,ed_max_pm,ed_diff_pm;
     private EditText ed_min_hum,ed_max_hum,ed_diff_hum;
     private EditText ed_min_tmp,ed_max_tmp,ed_diff_tmp;
+    private int pmin,pmax,pdif,tmin,tmax,tdif,hmin,hmax,hdif;
     private View view;
     public static SetMaxVauleFragment newInstance() {
         return new SetMaxVauleFragment();
@@ -71,31 +72,17 @@ public class SetMaxVauleFragment extends SupportFragment {
         ed_diff_tmp = view.findViewById(R.id.ed_diff_tmp);
 
         button = view.findViewById(R.id.btn_value_bc);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new SweetAlertDialog(SetMaxVauleFragment.this.getActivity(), SweetAlertDialog.SUCCESS_TYPE)
-                        .setContentText("您的更改已经保存！")
-                        .setConfirmText("确定")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sDialog) {
-                                sDialog.dismissWithAnimation();
-                            }
-                        })
-                        .show();
-            }
-        });
+        openApiService = OpenApiManager.createOpenApiService();
+
     }
 
     public void getData() {
-        openApiService = OpenApiManager.createOpenApiService();
         Call<SetValue> einfo= openApiService.getValue();
 
         //step4:通过异步获取数据
         einfo.enqueue(new Callback<SetValue>() {
             @Override
-            public void onResponse(Call<SetValue> call, retrofit2.Response<SetValue> response) {
+            public void onResponse(final Call<SetValue> call, final retrofit2.Response<SetValue> response) {
                 Log.e(TAG, "onResponse: 请求成功！！！" );
                 SetValue sv=response.body();
 
@@ -119,10 +106,70 @@ public class SetMaxVauleFragment extends SupportFragment {
                 ed_min_hum.setText(hum_min+"");
                 ed_max_hum.setText(hum_max+"");
                 ed_diff_hum.setText(hum_diff+"");
+
+                Log.e(TAG+"111111", "pmin: "+pmin+"，hdif"+hdif);
+                button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        pmin = Integer.parseInt(ed_min_pm.getEditableText().toString());
+                        pmax = Integer.parseInt(ed_max_pm.getEditableText().toString());
+                        pdif = Integer.parseInt(ed_diff_pm.getEditableText().toString());
+                        tmin = Integer.parseInt(ed_min_tmp.getEditableText().toString());
+                        tmax = Integer.parseInt(ed_max_tmp.getEditableText().toString());
+                        tdif = Integer.parseInt(ed_diff_tmp.getEditableText().toString());
+                        hmin = Integer.parseInt(ed_min_hum.getEditableText().toString());
+                        hmax = Integer.parseInt(ed_max_hum.getEditableText().toString());
+                        hdif = Integer.parseInt(ed_diff_hum.getEditableText().toString());
+                        SetValue.GetValueBean bean = new SetValue.GetValueBean(pmin, pmax, pdif, tmin, tmax, tdif, hmin, hmax, hdif);
+                        if (pmin > pm_max || tmin > tmax || hmin > hmax) {
+                            new SweetAlertDialog(SetMaxVauleFragment.this.getActivity(), SweetAlertDialog.ERROR_TYPE)
+                                    .setContentText("保存失败，请检查！")
+                                    .setConfirmText("确定")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    })
+                                    .show();
+                        } else {
+                            save(bean);
+                            new SweetAlertDialog(SetMaxVauleFragment.this.getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+                                    .setContentText("您的更改已经保存！")
+                                    .setConfirmText("确定")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+                                            sDialog.dismissWithAnimation();
+                                        }
+                                    })
+                                    .show();
+                        }
+                    }
+                });
             }
             @Override
             public void onFailure(Call<SetValue> call, Throwable t) {
                 Log.e(TAG, "onFailure: 请求失败！！！！~~~~~" );
+                Log.e(TAG, "onFailure: "+t.getMessage() );
+            }
+        });
+    }
+
+    public void save(SetValue.GetValueBean bean){
+        Call<SetValue> call=openApiService.save(bean);
+
+        call.enqueue(new Callback<SetValue>() {
+            @Override
+            public void onResponse(Call<SetValue> call, retrofit2.Response<SetValue> response) {
+                Log.e(TAG, "onResponse: 请求成功，嘻嘻嘻嘻嘻嘻！！！" );
+                Log.e(TAG+"3333333", "pmin: "+pmin+"，hdif"+hdif);
+                SetValue poetrys=response.body();
+            }
+
+            @Override
+            public void onFailure(Call<SetValue> call, Throwable t) {
+                Log.e(TAG, "onFailure: 请求失败,哈哈哈哈！！！！~~~~~" );
                 Log.e(TAG, "onFailure: "+t.getMessage() );
             }
         });

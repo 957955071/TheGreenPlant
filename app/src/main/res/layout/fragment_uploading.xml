@@ -19,27 +19,46 @@
             android:layout_marginTop="40dp"
             android:layout_width="match_parent"
             android:layout_height="300dp"
+            android:src="@mipmap/mr"
             />
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_gravity="clip_horizontal|center_horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/choose_img2"
+                android:layout_width="175dp"
+                android:layout_height="50dp"
+                android:background="@drawable/photo_left"
+                android:text="立即拍照"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/choose_img"
+                android:layout_width="175dp"
+                android:layout_height="50dp"
+                android:background="@drawable/photo"
+                android:text="选择照片"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <Button
-            android:id="@+id/choose_img"
-            android:background="@drawable/top_button_shap"
-            style="@style/roundbutton"
-            android:layout_width="350dp"
-            android:elevation="10dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_height="50dp"
-            android:text="选择照片" />
-        <Button
             android:id="@+id/btn_upload"
-            android:background="@drawable/top_button_shap"
-            style="@style/roundbutton"
             android:layout_width="350dp"
-            android:layout_gravity="center_vertical|center_horizontal"
-            android:elevation="10dp"
             android:layout_height="50dp"
-            android:text="确定上传" />
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:background="@drawable/top_button_shap"
+            android:elevation="10dp"
+            android:text="确定上传"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
 
     </LinearLayout>
