@@ -467,7 +467,7 @@ public class LoginFragment extends SupportFragment {
                                         editor.putInt("STRING_KEY2", work);
                                         editor.putString("STRING_KEY3", name);
                                         editor.putString("STRING_KEY4", userid);
-                                        editor.putInt("STRING_KEY5",workShop);
+                                        editor.putInt("STRING_KEY5", workShop);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();
@@ -547,6 +547,7 @@ public class LoginFragment extends SupportFragment {
                                 final int work = subjectList.get(0).getUserWork();
                                 final String name = subjectList.get(0).getUserName();
                                 final String userid = subjectList.get(0).getUserId();
+                                final int workShop = subjectList.get(0).getUserWorkshop();
                                 remeber();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
@@ -561,6 +562,7 @@ public class LoginFragment extends SupportFragment {
                                         editor.putInt("STRING_KEY2", work);
                                         editor.putString("STRING_KEY3", name);
                                         editor.putString("STRING_KEY4", userid);
+                                        editor.putInt("STRING_KEY5", workShop);
                                         editor.commit();
                                         startActivity(intent);
                                         getActivity().finish();

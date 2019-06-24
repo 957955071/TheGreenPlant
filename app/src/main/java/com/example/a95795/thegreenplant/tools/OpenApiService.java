@@ -4,6 +4,7 @@ package com.example.a95795.thegreenplant.tools;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoDay;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoMon;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoWeek;
+import com.example.a95795.thegreenplant.bean.Machinerecord;
 import com.example.a95795.thegreenplant.bean.SetValue;
 
 import retrofit2.Call;
@@ -12,9 +13,11 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface OpenApiService {
-    public static final  String BASE_URL="http://134.175.176.168:8080/";
+//    public static final  String BASE_URL="http://192.168.43.26:8080/";
+    public static final  String BASE_URL="http://nanhai655.cn:8080/";
 
     //查询全部环境详情 日
     @GET("user/queryEnvironmentInfoDay")
@@ -71,12 +74,20 @@ public interface OpenApiService {
     @GET("user/getValue")
     Call<SetValue> getValue();
 
-//    //保存设置
+
+//    @GET("user/getFenergy")
+//    Call<Machinerecord> getFenergy();
+////    //保存设置
 //    @GET("user/save")
 //    Call<SetValue> save(SetValue.GetValueBean bean);
 
     @POST("user/save")
     Call<SetValue> save(@Body SetValue.GetValueBean bean);
+
+    @GET("user/workShop/{workShop}/mname/{mname}")
+    Call<Machinerecord> getFenergy(@Path("workShop") int workshop,
+                                   @Path("mname") String mname);
+
 
 
 }

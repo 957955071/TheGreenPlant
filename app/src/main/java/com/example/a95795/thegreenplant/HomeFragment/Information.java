@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,6 +73,9 @@ public class Information extends SupportFragment implements PopupInflaterListene
     private TextView info4;
     private int ID;
     String name,userid,id,time,num;
+    private AlertDialog.Builder pwdBuilder;
+    private AlertDialog pwdDialog;
+    Button count;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -150,6 +155,9 @@ public class Information extends SupportFragment implements PopupInflaterListene
                 Toast.makeText(getContext(), text, Toast.LENGTH_SHORT).show();
             }
         });
+        mSex.setShowRightArrow(false);
+        mJob.setShowRightArrow(false);
+        mWorkshop.setShowRightArrow(false);
         //修改用户名item的左侧图标
       /* mNickName.setLeftIcon(R.drawable.ic_phone);
         //
@@ -170,15 +178,29 @@ public class Information extends SupportFragment implements PopupInflaterListene
         mTelephone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder localBuilder = new AlertDialog.Builder(getContext());
-                final View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.phone,null);
-                localBuilder.setTitle("请输入想要修改的手机号码").setIcon(R.mipmap.ic_launcher);
-                localBuilder.setView(dialogView);
-                localBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
-                    {
-                        EditText edit_text = dialogView.findViewById(R.id.editText);
+                final View dialgoView = View.inflate(getContext(), R.layout.phone, null); //初始化输入对话框的布局
+                //   设置登录密码
+                pwdBuilder = new AlertDialog.Builder(getContext());
+                pwdBuilder.setTitle("请输入想要修改的手机号码");
+                pwdBuilder.setView(dialgoView);
+                //因为点击取消关闭dialog，我直接这样写
+                pwdBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+                //现在builder中这样写确定按钮
+                pwdBuilder.setPositiveButton("确定",null);
+                //创建dialog
+                pwdDialog=pwdBuilder.create();
+                //dialog点击其他地方不关闭
+                pwdDialog.setCancelable(false);
+                pwdDialog.show();
+                //创建dialog点击监听OnClickListener
+                pwdDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        EditText edit_text = dialgoView.findViewById(R.id.editText);
                         String text = edit_text.getText().toString();
                         if (text.equals("")){
                             Toast.makeText(getContext(),"请输入手机号",Toast.LENGTH_LONG).show();
@@ -186,20 +208,60 @@ public class Information extends SupportFragment implements PopupInflaterListene
                             Toast.makeText(getContext(),"手机长度不合法",Toast.LENGTH_LONG).show();
                         }else if(!validatePhoneNumber(text)){
                             Toast.makeText(getContext(),"请输入正确的手机号",Toast.LENGTH_LONG).show();
-                        }else {
-                            mTelephone.setRightDesc(text.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
+                        }else{
+                            pwdDialog.cancel();
+                            final View dialgoView = View.inflate(getContext(), R.layout.checknum, null); //初始化输入对话框的布局
+                            //   设置登录密码
+                            count=dialgoView.findViewById(R.id.button2);
+                            count.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    CountDownTimer timer = new CountDownTimer(60000, 1000) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+                                            count.setEnabled(false);
+                                            count.setText("已发送(" + millisUntilFinished / 1000 + ")");
+
+                                        }
+                                        @Override
+                                        public void onFinish() {
+                                            count.setEnabled(true);
+                                            count.setText("重新获取");
+
+                                        }
+                                    }.start();
+                                }
+                            });
+                            pwdBuilder = new AlertDialog.Builder(getContext());
+                            pwdBuilder.setTitle("请输入短信验证码");
+                            pwdBuilder.setView(dialgoView);
+                            //因为点击取消关闭dialog，我直接这样写
+                            pwdBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            //现在builder中这样写确定按钮
+                            pwdBuilder.setPositiveButton("确定",null);
+                            //创建dialog
+                            pwdDialog=pwdBuilder.create();
+                            //dialog点击其他地方不关闭
+                            pwdDialog.setCancelable(false);
+                            pwdDialog.show();
+                            //创建dialog点击监听OnClickListener
+                            pwdDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+
+                                }
+                            });
                         }
-
                     }
-                }).setNegativeButton("取消", new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface paramAnonymousDialogInterface, int paramAnonymousInt)
-                    {
-
-                    }
-                }).create().show();
+                }
+                );
             }
         });
+
 
 
     }

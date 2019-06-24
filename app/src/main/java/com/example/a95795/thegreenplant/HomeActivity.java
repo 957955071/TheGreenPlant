@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.location.LocationManager;
@@ -18,6 +19,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -39,6 +41,8 @@ import com.example.a95795.thegreenplant.side.BoosWorkshopInformationFragmentFrag
 import com.example.a95795.thegreenplant.side.SetMaxVauleFragment;
 import com.example.a95795.thegreenplant.side.UploadingFragment;
 import com.example.a95795.thegreenplant.side.WorkshopInformationFragment;
+import com.example.a95795.thegreenplant.tools.MyBroadcastReceiver;
+import com.example.a95795.thegreenplant.tools.MyService;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.SupportActivity;
@@ -75,6 +79,9 @@ public class HomeActivity extends SupportActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        startService(new Intent(this, MyService.class));
+
         Context ctx = getContext();
         SharedPreferences sp = ctx.getSharedPreferences("SP", MODE_PRIVATE);
         String name = sp.getString("STRING_KEY3","");
@@ -371,6 +378,7 @@ public class HomeActivity extends SupportActivity
         super.onDestroy();
         locationService.unregisterListener(mListener); //注销掉监听
         locationService.stop(); //停止定位服务
+//        unregisterReceiver(myBroadcastReceiver);//停止通知
     }
 
     /*****
@@ -393,6 +401,7 @@ public class HomeActivity extends SupportActivity
                     }
                 }*/
             }
+            Log.e("99999", "onReceiveLocation: "+location.getAddrStr() );
         }
 
     };
@@ -405,7 +414,7 @@ public class HomeActivity extends SupportActivity
 
     private void openGPSSEtting() {
         if (checkGpsIsOpen()){
-            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "true", Toast.LENGTH_SHORT).show();
         }else {
             new AlertDialog.Builder(this).setTitle("open GPS")
                     .setMessage("go to open")
@@ -440,7 +449,4 @@ public class HomeActivity extends SupportActivity
             openGPSSEtting();
         }
     }
-
-
-
 }

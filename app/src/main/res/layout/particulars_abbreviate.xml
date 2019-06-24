@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:id="@+id/framelyout"
     android:layout_height="match_parent"
-    android:layoutAnimation="@anim/list_layout_animation"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.example.a95795.thegreenplant.HomeFragment.ParticularsFragment">
 
@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="22"
                     android:textColor="@color/textview_data" />
 
                 <View
@@ -219,7 +219,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
                     android:gravity="center"
-                    android:text="TextView"
+                    android:text="53"
                     android:textColor="@color/textview_data" />
 
                 <View
@@ -295,7 +295,7 @@
                 android:textColor="@drawable/test_bg"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="详细信息"
+                android:text="图表展示"
                 android:textSize="22dp"
                 />
 

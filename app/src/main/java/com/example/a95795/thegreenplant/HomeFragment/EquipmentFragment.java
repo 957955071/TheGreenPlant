@@ -119,7 +119,7 @@ public class EquipmentFragment extends SupportFragment {
         niceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(EquipmentFragment.this.getActivity(),"点击了第"+(1 + position)+"个",Toast.LENGTH_LONG).show();
+                Toast.makeText(EquipmentFragment.this.getActivity(),"打开"+(1 + position)+"号车间",Toast.LENGTH_LONG).show();
                 EventBus.getDefault().postSticky(new WorkShopJudge((1+position)));
                 replaceFragment(new EquipmentItemFragment());
             }

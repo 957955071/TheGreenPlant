@@ -24,7 +24,7 @@ public class LaunchActivity extends AwesomeSplash{
         configSplash.setRevealFlagY(Flags.REVEAL_BOTTOM);
 
         configSplash.setLogoSplash(R.drawable.ic_launcher_foreground); //or any other drawable
-        configSplash.setAnimLogoSplashDuration(2000); //int ms
+        configSplash.setAnimLogoSplashDuration(1500); //int ms
         //configSplash.setAnimLogoSplashTechnique(Techniques.BounceInRight);
 
         //Customize Path
@@ -42,7 +42,7 @@ public class LaunchActivity extends AwesomeSplash{
         configSplash.setTitleSplash("绿色车间App");
         configSplash.setTitleTextColor(R.color.Wheat);
         configSplash.setTitleTextSize(30f); //float value
-        configSplash.setAnimTitleDuration(3000);
+        configSplash.setAnimTitleDuration(1000);
         configSplash.setAnimTitleTechnique(Techniques.FlipInX);
         configSplash.setTitleFont("fonts/word.ttf"); //provide string to your font located in assets/fonts/
 
@@ -50,7 +50,7 @@ public class LaunchActivity extends AwesomeSplash{
 
     @Override
     public void animationsFinished() {
-        Intent intent=new Intent(LaunchActivity.this,MainActivity.class);
+        Intent intent=new Intent(LaunchActivity.this,WelcomeActivity.class);
         startActivity(intent);
         finish();
     }

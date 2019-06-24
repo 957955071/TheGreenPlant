@@ -1,6 +1,7 @@
 package com.example.a95795.thegreenplant.register;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,7 +16,10 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.example.a95795.thegreenplant.HomeActivity;
+import com.example.a95795.thegreenplant.HomeFragment.EnvironmentFragment;
 import com.example.a95795.thegreenplant.Login.LoginFragment;
+import com.example.a95795.thegreenplant.MainActivity;
 import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.custom.Message;
 import com.example.a95795.thegreenplant.custom.Message_all;
@@ -160,7 +164,9 @@ public class EndMessageFragment extends SupportFragment {
                                                 new Handler().postDelayed(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        popTo(PhoneFragment.class, true);
+                                                        Intent intent = new Intent(EndMessageFragment.this.getActivity(), MainActivity.class);
+                                                        startActivity(intent);
+                                                        getActivity().finish();
                                                         SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                                         dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
                                                         String ee = dff.format(new Date());

@@ -20,6 +20,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.a95795.thegreenplant.HomeActivity;
 import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.bean.EnvironmentInfoDay;
+import com.example.a95795.thegreenplant.bean.Machinerecord;
 import com.example.a95795.thegreenplant.bean.SetValue;
 import com.example.a95795.thegreenplant.tools.OpenApiManager;
 import com.example.a95795.thegreenplant.tools.OpenApiService;
@@ -36,7 +37,7 @@ import retrofit2.Callback;
 public class SetMaxVauleFragment extends SupportFragment {
     private Button button;
     private String TAG = "volley";
-    private OpenApiService openApiService = null;
+    private OpenApiService openApiService = OpenApiManager.createOpenApiService();
     private int pm_min,pm_max,pm_diff;
     private int tmp_min,tmp_max,tmp_diff;
     private int hum_min,hum_max,hum_diff;
@@ -72,7 +73,7 @@ public class SetMaxVauleFragment extends SupportFragment {
         ed_diff_tmp = view.findViewById(R.id.ed_diff_tmp);
 
         button = view.findViewById(R.id.btn_value_bc);
-        openApiService = OpenApiManager.createOpenApiService();
+//        openApiService = OpenApiManager.createOpenApiService();
 
     }
 
@@ -163,7 +164,6 @@ public class SetMaxVauleFragment extends SupportFragment {
             @Override
             public void onResponse(Call<SetValue> call, retrofit2.Response<SetValue> response) {
                 Log.e(TAG, "onResponse: 请求成功，嘻嘻嘻嘻嘻嘻！！！" );
-                Log.e(TAG+"3333333", "pmin: "+pmin+"，hdif"+hdif);
                 SetValue poetrys=response.body();
             }
 
@@ -174,6 +174,8 @@ public class SetMaxVauleFragment extends SupportFragment {
             }
         });
     }
+
+
 
 }
 

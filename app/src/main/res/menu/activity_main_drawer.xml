@@ -22,12 +22,13 @@
             android:title="所有车间用户" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
+            android:icon="@drawable/ic_menu_slideshow"
             android:title="用户反馈" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="阈值设置" />
+
+            android:icon="@drawable/ic_menu_manage"
+            android:title="监测设置" />
 
     </group>
 

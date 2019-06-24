@@ -44,16 +44,19 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import com.example.a95795.thegreenplant.HomeActivity;
 import com.example.a95795.thegreenplant.R;
 import com.example.a95795.thegreenplant.custom.FileUtil;
 import com.example.a95795.thegreenplant.custom.MultiPartStack;
 import com.example.a95795.thegreenplant.custom.MultiPartStringRequest;
+import com.github.ybq.android.spinkit.SpinKitView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import me.yokeyword.fragmentation.SupportFragment;
 
 /**
@@ -67,6 +70,7 @@ public class UploadingFragment extends SupportFragment {
     private static String TAG = "MainActivity";
     private  Button btn_upload;
     private static ProgressDialog mProgress;
+    private SpinKitView spinKitView;
     private RequestQueue requestQueue;
     private static RequestQueue mSingleQueue;
     public static final int RC_CHOOSE_PHOTO = 2;
@@ -90,6 +94,7 @@ public class UploadingFragment extends SupportFragment {
         Button button = (Button) view.findViewById(R.id.btn_upload);
         Button button1 = (Button) view.findViewById(R.id.choose_img);
         Button button2 = (Button) view.findViewById(R.id.choose_img2);
+        spinKitView = (SpinKitView) view.findViewById(R.id.spin_kit);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +143,7 @@ public class UploadingFragment extends SupportFragment {
         if (URL.equals("")){
             Toast.makeText(getContext(),"不能上传空照片",Toast.LENGTH_LONG).show();
         }else {
+            spinKitView.setVisibility(View.VISIBLE);
             showProgress();
             Map<String, File> files = new HashMap<String, File>();
             files.put("image1", new File(
@@ -156,7 +162,17 @@ public class UploadingFragment extends SupportFragment {
         @Override
         public void onResponse(String response) {
             //返回的数据
-            Toast.makeText(getContext(),"已经成功上传",Toast.LENGTH_SHORT).show();
+            spinKitView.setVisibility(View.GONE);
+            new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
+                    .setContentText("已经成功上传")
+                    .setConfirmText("确定")
+                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismissWithAnimation();
+                        }
+                    })
+                    .show();
         }
     };
 
@@ -248,7 +264,7 @@ public class UploadingFragment extends SupportFragment {
                 case 101: //选取照片
                     imgUri = data.getData();  //获取选取照片的 Uri
                     URL = getRealPathFromUri(getContext(),imgUri);
-                    Toast.makeText(getContext(),imgUri.toString(),Toast.LENGTH_LONG).show();
+
                     break;
             }
             showImg();  //显示 imgUri 所指明的照片

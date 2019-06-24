@@ -73,15 +73,17 @@
                 android:resource="@xml/update_files" />
         </provider>
         <activity android:name=".RealActivity"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".LaunchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".HomeActivity" />
-        <activity android:name=".LaunchActivity"></activity>
+        <activity android:name=".MainActivity" />
 
+        <activity android:name=".WelcomeActivity"></activity>
+        <service android:name=".tools.MyService"/>
         <meta-data
             android:name="Mob-AppKey"
             android:value="2af5a47c0a2ac" />

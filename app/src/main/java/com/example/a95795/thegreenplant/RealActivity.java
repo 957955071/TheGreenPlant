@@ -1,6 +1,7 @@
 package com.example.a95795.thegreenplant;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import com.example.a95795.thegreenplant.real.RealBean;
 import com.example.a95795.thegreenplant.real.RealItemAdaper;
 import com.example.a95795.thegreenplant.side.SetMaxVauleFragment;
 import com.example.a95795.thegreenplant.tools.CircleImageView;
+import com.example.a95795.thegreenplant.tools.MyBroadcastReceiver;
 import com.example.a95795.thegreenplant.tools.OpenApiManager;
 import com.example.a95795.thegreenplant.tools.OpenApiService;
 import com.google.gson.Gson;
@@ -44,17 +46,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 
 public class RealActivity extends SwipeBackActivity {
-    private String city = "chengde";
     private String json;
     private JSONArray HeWeather6;
     private JSONObject now;
     private TextView tv_pm1,tv_tmp1,tv_hum1,tv_pm2,tv_tmp2,tv_hum2;
     private TextView tv_pm3,tv_tmp3,tv_hum3,tv_pm4,tv_tmp4,tv_hum4;
+    private TextView tv_now_pm,tv_now_tmp,tv_now_hum;
     private int pm1,tmp1,hum1,pm2,tmp2,hum2;
     private int pm3,tmp3,hum3,pm4,tmp4,hum4;
     private String TAG = "volley";
-    private RecyclerView recyclerView;
-    private List<RealBean> realList = new ArrayList<>();
     private ImageView bgPm,bgTmp,bgHum,bgPm2,bgTmp2,bgHum2;
     private ImageView bgPm3,bgTmp3,bgHum3,bgPm4,bgTmp4,bgHum4;
     private ImageView back;
@@ -62,7 +62,7 @@ public class RealActivity extends SwipeBackActivity {
     private int tmp_min,tmp_max,tmp_diff;
     private int hum_min,hum_max,hum_diff;
     private OpenApiService openApiService = OpenApiManager.createOpenApiService();
-    private int pmin,pmax,pdif,tmin,tmax,tdif,hmin,hmax,hdif;
+    private MyBroadcastReceiver myBroadcastReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +73,6 @@ public class RealActivity extends SwipeBackActivity {
     }
 
     private void initView(){
-        recyclerView = (RecyclerView) findViewById(R.id.rview_real);
         back = (ImageView) findViewById(R.id.iv_back);
         bgPm = (ImageView) findViewById(R.id.bg_pm);
         bgHum = (ImageView) findViewById(R.id.bg_hum);
@@ -103,7 +102,9 @@ public class RealActivity extends SwipeBackActivity {
         tv_tmp4 = (TextView) findViewById(R.id.tv_tmp_value4);
         tv_hum4 = (TextView) findViewById(R.id.tv_hum_value4);
 
-
+        tv_now_hum = (TextView) findViewById(R.id.tv_now_hum);
+        tv_now_tmp = (TextView) findViewById(R.id.tv_now_tmp);
+        tv_now_pm = (TextView) findViewById(R.id.tv_now_pm);
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +121,7 @@ public class RealActivity extends SwipeBackActivity {
     }
 
     public void getData() {
-        String url = "https://free-api.heweather.net/s6/weather//now?location="+city+"&key="+getString(R.string.key);
+        String url = "https://free-api.heweather.net/s6/weather//now?location=chengde&key="+getString(R.string.key);
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -240,8 +241,9 @@ public class RealActivity extends SwipeBackActivity {
         RequestQueue v = Volley.newRequestQueue(this);
         v.add(request);
     }
+
     public void getData4() {
-        String url = "https://free-api.heweather.net/s6/weather//now?location=beijing&key="+getString(R.string.key);
+        String url = "https://free-api.heweather.net/s6/weather//now?location=nanjing&key="+getString(R.string.key);
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
@@ -298,32 +300,6 @@ public class RealActivity extends SwipeBackActivity {
         }).start();
     }
 
-//    public void isEvent(int p,int t,int h,ImageView img1,ImageView img2,ImageView img3){
-//        if(p>=0&&p<=50){
-//            img1.setImageResource(R.drawable.green);
-//        }else if(p>50&&p<=100){
-//            img1.setImageResource(R.drawable.yellow);
-//        }else{
-//            img1.setImageResource(R.drawable.red);
-//        }
-//
-//        if(t>18&&t<=25){
-//            img2.setImageResource(R.drawable.green);
-//        }else if((t>13&&t<=18)||(t>25&&t<=30)){
-//            img2.setImageResource(R.drawable.yellow);
-//        }else{
-//            img2.setImageResource(R.drawable.red);
-//        }
-//
-//        if(h>30&&h<=60){
-//            img3.setImageResource(R.drawable.green);
-//        }else if((h>10&&h<=30)||(h>60&&h<=80)){
-//            img3.setImageResource(R.drawable.yellow);
-//        }else{
-//            img3.setImageResource(R.drawable.red);
-//        }
-//    }
-
 
     public void isEvent(final int p, final int t, final int h, final ImageView img1, final ImageView img2, final ImageView img3){
         Call<SetValue> call=openApiService.getValue();
@@ -344,12 +320,18 @@ public class RealActivity extends SwipeBackActivity {
                     hum_max = sv.getGetValue().get(j).getHumMax();
                     hum_diff = sv.getGetValue().get(j).getHumDiff();
                 }
+                tv_now_hum.setText("当前湿度指标："+hum_min+"RH～"+hum_max+"RH，偏差值:"+hum_diff);
+                tv_now_tmp.setText("当前温度指标："+tmp_min+"℃～"+tmp_max+"℃，偏差值:"+tmp_diff);
+                tv_now_pm.setText("当前PM2.5指标："+pm_min+"ug/m3～"+pm_max+"ug/m3，偏差值:"+pm_diff);
+
                 if(p>=pm_min&&p<=pm_max){
                     img1.setImageResource(R.drawable.green);
                 }else if((p>pm_min-pm_diff&&t<=pm_min)||(p>pm_max&&p<=pm_max+pm_diff)){
                     img1.setImageResource(R.drawable.yellow);
+
                 }else{
                     img1.setImageResource(R.drawable.red);
+
                 }
 
                 if(t>tmp_min&&t<=tmp_max){

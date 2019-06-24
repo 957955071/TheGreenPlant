@@ -158,5 +158,5 @@ dependencies {
     implementation project(path: ':volley')
     //图片缓存
 
-
+    implementation 'com.github.apl-devs:appintro:v4.2.2'
 }

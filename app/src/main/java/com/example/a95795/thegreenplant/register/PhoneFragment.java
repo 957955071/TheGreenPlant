@@ -117,6 +117,7 @@ public class PhoneFragment extends SupportFragment {
     }
     public void mac(){
         Mac = getMac();
+        Log.d("11111111", "mac: "+Mac);
         String url = getString(R.string.ip) + "user/FindUserMac";
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
                 Request.Method.POST,

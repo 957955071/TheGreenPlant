@@ -67,4 +67,6 @@
     <color name="transparent_gray">#90000000</color>
     <color name="color_green">#02ff02</color>
 
+    <color name="colo">#4CAF50</color>
+
 </resources>

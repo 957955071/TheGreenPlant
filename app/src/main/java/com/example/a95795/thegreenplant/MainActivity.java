@@ -38,7 +38,7 @@ import me.yokeyword.fragmentation.SupportActivity;
 import me.yokeyword.fragmentation.anim.DefaultHorizontalAnimator;
 import me.yokeyword.fragmentation.anim.FragmentAnimator;
 
-public class MainActivity extends SupportActivity  {
+public class MainActivity extends SupportActivity {
     private FragmentTransaction mFragmentTransaction;//fragment事务
     private FragmentManager mFragmentManager;//fragment管理者
     private MessageFragment messageFragment;
